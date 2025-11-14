@@ -1,0 +1,66 @@
+Context Summary:
+You (Rytis) are building a modular MCP (Model Context Protocol) server in Node.js.
+It communicates via WebSocket JSON-RPC (ws://localhost:4000) and dynamically loads tools from the /tools directory.
+You’ve already implemented and verified:
+
+✅ Auth system (via .env → AUTH_TOKEN=secret123)
+
+✅ Dynamic tool loader with core tools (ping, getTime, readFile, writeFile, runCommand, dbQuery, cache, etc.)
+
+✅ Integration with published npm package @ryttis/logpilot@1.0.0 — used by tools/logParse.js
+
+✅ Bridge.js connecting the MCP server with OpenAI API for future AI-assisted analysis.
+
+✅ Local test success:
+{"jsonrpc":"2.0","id":1,"method":"logParse","auth":"secret123","params":{"path":"./logs/test.log"}}
+returns correct parsed log data.
+
+Project Structure
+mcp-server/
+├── server.js              # main MCP WebSocket server
+├── bridge.js              # connects to OpenAI (gpt-4o-mini)
+├── tools/
+│   ├── logParse.js        # uses @ryttis/logpilot
+│   ├── readFile.js, dbQuery.js, ...
+│   └── ...
+├── .env                   # includes AUTH_TOKEN=secret123
+├── package.json
+
+🧩 Installed Packages
+
+@ryttis/logpilot — your own npm package for parsing and DB writing
+
+dotenv, ws, openai, mysql2, etc.
+
+Node.js version: v24.10.0
+
+🎯 Current Goal (Next Session)
+
+Phase 2 — Nice-to-Have Layer:
+
+Implement tools/logSummarize.js — parse log file → send to OpenAI → summarize patterns and errors.
+
+Optionally add tools/logStats.js — compute log-level statistics.
+
+Extend bridge.js to automatically chain logParse → logSummarize.
+
+Prepare for Phase 3 (DB ingestion & analytics).
+
+🧠 Assistant Role for Next Session
+
+You act as System Architect & AI Integrator:
+
+Respond concisely, code-first, task-driven.
+
+Default output format: runnable JS snippets + short explanations.
+
+No debugging preamble unless needed; assume full technical context.
+
+⚙️ Startup Reminder
+
+To resume work:
+
+cd ~/mcp-server
+node server.js
+# (or)
+npx wscat -c ws://localhost:4000
