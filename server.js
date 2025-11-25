@@ -32,6 +32,7 @@ console.log("🧠 Initialized global.mcpState");
 
     wss.on("connection", (ws, req) => handleRpc(ws, req, AUTH_TOKEN, appendContextLog));
 
+    // Snapshot every 5 minutes
     setInterval(() => snapshotServer(global.mcpState), 5 * 60 * 1000);
 
     process.on("SIGINT", () => {

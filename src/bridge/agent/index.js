@@ -86,3 +86,6 @@ export async function improveFile(filePath, instructions = "Add JSDoc header.") 
         });
     });
 }
+
+export { runRecipe } from "./runRecipe.js";
+
