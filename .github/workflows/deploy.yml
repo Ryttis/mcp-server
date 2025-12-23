@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run server check
-        run: node server.js --help || true
-
       - name: Deploy to Ubuntu via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
