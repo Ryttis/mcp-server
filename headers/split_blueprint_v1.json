@@ -1,0 +1,186 @@
+{
+  "blueprint": "MCP Split Blueprint v1",
+  "timestamp": "2025-12-22T23:40:00+02:00",
+  "author": "Rytis Puodziunas",
+  "goal": "Split current MCP monorepo into two independent repositories: mcp-server (stable infrastructure) and mcp-bridge (innovation & AI layer), enabling faster iteration and future UI and Protocol projects.",
+
+  "rationale": {
+    "server_as_infrastructure": {
+      "description": "MCP-Server becomes a stable, boring, infrastructure service exposing tools over MCP protocol.",
+      "properties": [
+        "long-running",
+        "deployed on Ubuntu",
+        "minimal changes",
+        "backwards compatible",
+        "versioned releases"
+      ]
+    },
+    "bridge_as_innovation": {
+      "description": "Bridge/Agent becomes the fast-moving local orchestration layer with AI, recipes, and evolving context.",
+      "properties": [
+        "local-first",
+        "rapid iteration",
+        "allowed to break APIs",
+        "contains tech debt",
+        "AI-heavy"
+      ]
+    },
+    "benefits": [
+      "Decouple stability from experimentation",
+      "Allow deep refactors in bridge without risking server",
+      "Restore development velocity",
+      "Prepare for future UI and Protocol projects"
+    ]
+  },
+
+  "target_repositories": {
+    "mcp-server": {
+      "role": "Infrastructure Runtime",
+      "deployment": "Ubuntu server",
+      "stability": "v1 frozen, bugfixes only",
+      "responsibilities": [
+        "RPC server",
+        "Global state management",
+        "Tool registry and execution",
+        "Snapshots and machine state",
+        "Workspace resolution",
+        "Security and auth"
+      ],
+      "must_not_contain": [
+        "recipes",
+        "AI logic",
+        "step orchestration",
+        "bridge scripts",
+        "experiments"
+      ]
+    },
+    "mcp-bridge": {
+      "role": "Agent & Orchestration Layer",
+      "deployment": "Local (macOS/Windows/Linux)",
+      "stability": "fast evolving",
+      "responsibilities": [
+        "CLI interface",
+        "Recipe loading and validation",
+        "Step orchestration",
+        "Context model evolution",
+        "AI agents and planners",
+        "Snapshot consumption",
+        "Project-specific logic"
+      ],
+      "must_not_contain": [
+        "RPC server",
+        "core tool implementations",
+        "global state persistence"
+      ]
+    }
+  },
+
+  "mechanical_split_plan": {
+    "phase": "Mechanical only — no refactors",
+    "steps": [
+      {
+        "id": 1,
+        "action": "Create new repos",
+        "details": [
+          "git init ../mcp-server",
+          "git init ../mcp-bridge"
+        ]
+      },
+      {
+        "id": 2,
+        "action": "Move server code",
+        "from": "current repo",
+        "to": "mcp-server",
+        "paths": [
+          "server.js",
+          "src/server/**",
+          "tools/**",
+          "machine_state/**",
+          "headers/**",
+          "package.json (server deps only)",
+          "package-lock.json"
+        ]
+      },
+      {
+        "id": 3,
+        "action": "Move bridge/agent code",
+        "from": "current repo",
+        "to": "mcp-bridge",
+        "paths": [
+          "bridge.js",
+          "src/agent/**",
+          "src/bridge/**",
+          "blueprint/**",
+          "src/utils/**",
+          "src/agent/recipes/**",
+          "src/agent/steps/**",
+          "package.json (bridge deps only)"
+        ]
+      },
+      {
+        "id": 4,
+        "action": "Fix imports and paths",
+        "details": [
+          "Update imports pointing to removed server files",
+          "Bridge communicates with server only via MCP RPC",
+          "Remove any direct filesystem dependency on server internals"
+        ]
+      },
+      {
+        "id": 5,
+        "action": "Minimal run validation",
+        "details": [
+          "Start mcp-server and test core tools (ping, debugState, snapshotTool)",
+          "Run bridge CLI against server (run-recipe scan-project)"
+        ]
+      }
+    ]
+  },
+
+  "post_split_rules": {
+    "mcp-server": {
+      "allowed_changes": [
+        "bugfixes",
+        "performance improvements",
+        "security patches",
+        "tool additions"
+      ],
+      "forbidden_changes": [
+        "context refactors",
+        "recipe changes",
+        "AI logic",
+        "breaking RPC changes"
+      ]
+    },
+    "mcp-bridge": {
+      "allowed_changes": [
+        "full refactors",
+        "context redesign",
+        "recipe schema changes",
+        "step interface changes",
+        "AI orchestration"
+      ],
+      "focus": "Remove tech debt and implement blueprint"
+    }
+  },
+
+  "future_projects": {
+    "mcp-ui": {
+      "role": "Visual interface for MCP",
+      "depends_on": ["mcp-bridge", "mcp-server"]
+    },
+    "mcp-protocol": {
+      "role": "Formal MCP protocol specification",
+      "depends_on": ["mcp-server"],
+      "goal": "Standardize message formats, capabilities, auth, streaming"
+    }
+  },
+
+  "success_criteria": [
+    "mcp-server runs independently and exposes tools",
+    "mcp-bridge runs independently and connects to server",
+    "No shared code between repos except protocol contract",
+    "Bridge can refactor freely without touching server",
+    "Server can be deployed and left untouched"
+  ]
+}

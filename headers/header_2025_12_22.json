@@ -1,0 +1,132 @@
+{
+  "timestamp": "2025-12-22T23:45:00+02:00",
+  "system": "MCP",
+  "author": "Rytis Puodziunas",
+
+  "overall_state": {
+    "maturity": "early-v1",
+    "core_runtime": "stable",
+    "agent_layer": "unstable / under heavy refactor",
+    "velocity": "blocked by tech debt",
+    "primary_focus": "Split into server and bridge to unblock evolution"
+  },
+
+  "working_components": {
+    "mcp_server": {
+      "rpc": "working",
+      "tool_execution": "working",
+      "global_state": "working",
+      "snapshotTool_scan": "working",
+      "debugState": "working",
+      "workspace_resolution": "working",
+      "notes": "Server reliably exposes tools and maintains state."
+    },
+    "scanner": {
+      "scan_project": "working",
+      "file_metadata": "working",
+      "skipping_large_files": "working",
+      "notes": "Project scanning produces consistent file lists."
+    },
+    "bridge_basic_flow": {
+      "connect": "working",
+      "run_recipe": "working",
+      "setLastContext": "working",
+      "notes": "Bridge can invoke recipes and push context to server."
+    }
+  },
+
+  "broken_or_unfinished": {
+    "collect_files_flow": {
+      "status": "broken",
+      "issues": [
+        "selectFiles interface mismatch",
+        "readFiles input contract unclear",
+        "executor passes params instead of step definition",
+        "no state.collected produced"
+      ],
+      "impact": "Cannot selectively ingest file contents."
+    },
+    "step_system": {
+      "status": "inconsistent",
+      "issues": [
+        "default vs named exports",
+        "mixed run(context) vs run(context, params)",
+        "loader expectations unclear"
+      ],
+      "impact": "Runtime failures and hard-to-debug errors."
+    },
+    "recipe_schema": {
+      "status": "inconsistent",
+      "issues": [
+        "id vs type fields",
+        "validator not aligned with real usage"
+      ],
+      "impact": "Recipes fragile and confusing."
+    },
+    "snapshot_semantics": {
+      "status": "partial",
+      "issues": [
+        "scan-project snapshots OK",
+        "collect-files snapshots not supported yet",
+        "root resolution previously buggy"
+      ],
+      "impact": "Context persistence incomplete."
+    }
+  },
+
+  "root_causes": {
+    "monorepo_coupling": {
+      "description": "Server and bridge logic are intertwined, blocking safe refactors.",
+      "impact": "Fear of breaking infrastructure slows innovation."
+    },
+    "unclear_contracts": {
+      "description": "Context model, step interface, and recipe schema not formally defined.",
+      "impact": "Misalignments across loader, executor, and steps."
+    }
+  },
+
+  "recent_achievements": [
+    "scan-project flow stabilized",
+    "snapshotTool writes into project headers",
+    "context.root correctly resolved to target project",
+    "step loader issues partially identified",
+    "tech debt clearly mapped",
+    "decision made to split repos"
+  ],
+
+  "current_blockers": [
+    "Cannot safely refactor steps/executor inside monorepo",
+    "collect-files flow unusable",
+    "export mismatches across primitives",
+    "bridge carries most tech debt but tied to server"
+  ],
+
+  "next_objectives": {
+    "immediate": [
+      "Mechanically split repo into mcp-server and mcp-bridge",
+      "Freeze mcp-server as v1 infrastructure",
+      "Move all tech debt to bridge"
+    ],
+    "after_split": [
+      "Redesign context model",
+      "Normalize step interface",
+      "Refactor recipe schema",
+      "Fix collect-files flow",
+      "Add collect-files snapshot support"
+    ],
+    "long_term": [
+      "Stabilize bridge v1",
+      "Start MCP UI project",
+      "Start MCP Protocol specification"
+    ]
+  },
+
+  "confidence": {
+    "server_stability": 0.85,
+    "bridge_malleability": 0.3,
+    "architecture_direction": 0.95,
+    "execution_readiness": 0.9
+  },
+
+  "summary": "MCP has reached the point where infrastructure is stable but innovation is blocked by tight coupling and tech debt. Splitting into mcp-server and mcp-bridge is the critical next step to restore velocity and enable future UI and protocol development."
+}

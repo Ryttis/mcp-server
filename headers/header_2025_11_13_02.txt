@@ -1,0 +1,203 @@
+🧩 MCP Server — Status & Progress Header
+
+Date: 2025-11-13
+Session: MCP Agent Refactoring & Documentation
+Author: Rytis
+
+✔️ Current Situation (What’s Done)
+1. Tooling System
+
+All tools in /tools/core, /tools/etno, /tools/factura were successfully improved with:
+
+Clean JSDoc headers
+
+Logic-preservation
+
+Correct .bak backup creation
+
+MCP server loads all tools correctly on startup:
+
+core_getTime, core_ping, core_analyzeGcode, core_cache,
+core_dbQuery, core_readFile, core_readProjectFile, core_runCommand,
+core_snapshotServer, core_writeFile, etno_readFile, factura_readFile,
+core_listDir, etno_listDir, core_logParse, core_checkBilling,
+etno_parseMaterial, core_logSummarize, etno_summarizeFile
+
+2. Loader.js & Global State Fix
+
+global.mcpState initialization fixed
+
+loader.js improved and stable
+
+Tool registry correctly populated
+
+Verified using debugging output:
+Tools in memory: [ 'core_getTime', 'core_ping', ... ]
+
+Agent System – Partial Refactor
+
+The Agent was split into multiple modules:
+
+readFromMCP.js
+
+writeBackup.js
+
+writeImproved.js
+
+aiImprove.js
+
+logger.js
+
+index.js (main agent) was partially rewritten and is functional again, now supporting:
+
+Fallback read (MCP → fs)
+
+Safe write pipeline
+
+One-header documentation rules
+
+.bak creation
+
+4. Backup Strategy — Header Created
+
+Stored at:
+headers/backup-strategy-header.md
+
+Includes:
+
+Central .mcp_backups/ directory
+
+Timestamped sessions
+
+Mirrored folder structure
+
+Future restoration + diffing ideas
+
+⚠️ Current Problems (Open Issues)
+1. Agent cannot call server.js improvement via bridge
+
+Symptoms:
+
+No .bak created
+
+Only logs:
+
+🧠 Agent started for /server.js
+
+
+and nothing else.
+
+Likely cause:
+
+readFromMCP still failing for server.js
+
+Possibly token or RPC mismatch
+
+Or server is ignoring improvement request for files outside /tools
+
+2. readFromMCP.js bug (new)
+
+Error earlier:
+
+Unknown method: core_listDir
+
+
+Means the MCP call was malformed
+
+Now partially fixed, but may still require:
+
+Filtering wrong async messages
+
+Additional RPC handshake logic
+
+3. Bridge startup still prints “Unknown method: core_listDir”
+
+Means the interactive console always pings the server with listDir
+
+Not harmful, but noisy
+
+Will be removed later.
+
+🚧 Work in Progress (Active Tasks)
+1. Finish Agent module refactor
+
+Goal:
+Convert current monolithic logic into clean modules:
+
+agent/
+  ├── index.js           (high-level orchestrator)
+  ├── readFromMCP.js     (MCP-first read logic)
+  ├── writeBackup.js     (centralized .bak logic)
+  ├── writeImproved.js   (final write logic)
+  ├── aiImprove.js       (OpenAI call)
+  ├── utils.js
+  └── logger.js
+
+
+Status:
+
+80% done
+
+Needs normalization & cleanup
+
+2. Add Full Documentation Using Bridge
+
+Goal:
+Improve all /src/server/*.js files (loader, logger, rpc, snapshot, workspace)
+Status:
+
+Attempt on loader.js → working
+
+Attempt on server.js → not working yet
+
+3. Add Centralized Backup Store
+
+Goal:
+Move from:
+
+file.js.bak
+
+
+To:
+
+.mcp_backups/YYYY-MM-DD_HH-MM-SS/tools/core/file.js
+
+
+Status:
+
+Not implemented yet
+
+Header prepared
+
+🎯 Next Steps (TODO Plan)
+Immediate
+
+Fix readFromMCP handshake logic
+
+Ensure agent can improve ANY project file
+
+Add robust debug logging to agent
+
+Short-term
+
+Add BACKUP_DIR environment variable
+
+Implement backup file mirroring
+
+Add progress logs to .ai/context.md with better formatting
+
+Later
+
+Add mcp restore <file>
+
+Add diff viewer for before/after files
+
+Add agent "dry-run" mode
+
+Add auto-docs for all tools using generate script
+
+📌 Summary
+
+The MCP system is now stable, tools are documented, and the agent works again — but server-side file improvement is still failing due to unresolved RPC message flow.
+
+Backup centralization is prepared conceptually and will be implemented after the agent refactor.

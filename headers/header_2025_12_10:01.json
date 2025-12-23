@@ -1,0 +1,179 @@
+{
+  "timestamp": "2025-12-10T00:00:00+02:00",
+  "system": "MCP-Server",
+  "environment_state": {
+    "engine": {
+      "context": "stable",
+      "pipeline": "stable",
+      "executor": "stable",
+      "notes": "core context mutation and step execution flow are working without exceptions"
+    },
+    "bridge": {
+      "runRecipe": "stable",
+      "core_setLastContext_sync": "working",
+      "verbose_logging": "working",
+      "recipe_resolution": "working_after_fix",
+      "notes": "Bridge consistently sends lastContext to server and resolves builtin recipes correctly"
+    },
+    "scanner": {
+      "scan-project": "working",
+      "fileType_detection": "working",
+      "notes": "scan-project flows produce full snapshot with correct file list"
+    },
+    "snapshotTool": {
+      "scan-project_snapshot": "working",
+      "collect-files_snapshot": "not_supported_yet",
+      "error_handling": "correct",
+      "notes": "snapshotTool only generates snapshots when state.scan or state.collected is present"
+    },
+    "steps": {
+      "primitives": {
+        "validateDocOnly": "working",
+        "writeFiles": "working",
+        "backupInit": "working",
+        "backupFiles": "working",
+        "selectFiles": "loading_but_fails_runtime",
+        "readFiles": "loading_but_misaligned_input",
+        "notes": "Most primitive steps load, but parameter passing contract is inconsistent"
+      },
+      "ai_steps": {
+        "docHeaderTransform": "working",
+        "notes": "Not involved in current debugging"
+      },
+      "scanner_steps": {
+        "scanProjectStep": "working",
+        "notes": "Responsible for scan-project; no issues"
+      }
+    },
+    "loaders": {
+      "step_loader": {
+        "status": "partially_broken",
+        "issue": "exports mismatch (default vs named) + inconsistent interface",
+        "notes": "Conflicts in primitive/index.js plus missing default exports"
+      },
+      "recipe_loader": {
+        "status": "partially_integrated",
+        "issue": "passes entire YAML step as 'step' but executor hands 'params' instead",
+        "notes": "Most important misalignment between loader → executor → step"
+      },
+      "validator": {
+        "status": "working_for_basic_schemas",
+        "issue": "inconsistent id/type validation for recipes v1 vs v2"
+      }
+    }
+  },
+
+  "working_features": {
+    "scan_project": true,
+    "snapshotTool_for_scan": true,
+    "core_setLastContext": true,
+    "bridge_pipeline": true,
+    "server_startup": true,
+    "tools_core": "functional",
+    "logging": "functional"
+  },
+
+  "broken_or_unfinished": {
+    "collect_files_recipe": {
+      "status": "broken",
+      "runtime_error": "selectFiles: 'patterns' must be a non-empty array",
+      "root_cause": "executor passes params instead of step definition; step.patterns becomes undefined",
+      "dependency_failures": [
+        "readFiles receives no file list",
+        "snapshotTool cannot snapshot collect-files"
+      ]
+    },
+    "step_export_conflicts": {
+      "status": "broken",
+      "details": [
+        "selectFiles.js has only named exports; index.js previously expected default export",
+        "readFiles.js has default export but loader expects named",
+        "primitive steps folder inconsistent about export format"
+      ]
+    },
+    "recipe_schema_conflict": {
+      "status": "inconsistent",
+      "details": [
+        "scan-project uses id:",
+        "collect-files uses type:",
+        "validator expects strict structure"
+      ]
+    },
+    "dotenv_multiple_loads": {
+      "severity": "low",
+      "details": "Multiple dotenv injections occur in nested modules, causing duplicate logs"
+    }
+  },
+
+  "root_blockers": {
+    "A_step_interface_mismatch": {
+      "description": "Steps expect (context, step) but executor passes (context, params)",
+      "impact": "All non-scanner primitive steps break during runtime",
+      "affected_components": [
+        "selectFiles",
+        "readFiles",
+        "writeFiles",
+        "backupInit",
+        "backupFiles"
+      ]
+    },
+    "B_collect_files_cannot_run": {
+      "description": "YAML-provided step patterns are never passed into primitive steps",
+      "impact": "No file-selection, no file read, no snapshot possible"
+    },
+    "C_snapshotTool_does_not_support_collect_files": {
+      "description": "Expecting state.collected but recipe never populates it",
+      "impact": "No snapshot possible for collected-files flow"
+    },
+    "D_exports_misalignment": {
+      "description": "default vs named export confusion in primitives/index.js",
+      "impact": "Node cannot import several primitive steps"
+    }
+  },
+
+  "context_awareness": {
+    "project_tree_loaded": true,
+    "snapshots_stored": [
+      "latest_uc-ai-api.md",
+      "latest_pronto-returns-frontend.md",
+      "latest_phr-website.md",
+      "latest_product-switcher.md",
+      "latest_upsells-tool-backend.md"
+    ],
+    "recent_actions_understood": [
+      "You scanned project and generated JSON snapshot",
+      "You refactored steps loader and recipe loader",
+      "You tried to enable collect-files flow for selective file ingestion",
+      "You updated readFiles and selectFiles but interface mismatch remains",
+      "SnapshotTool now uses new context model"
+    ]
+  },
+
+  "next_required_fixes": {
+    "fix_1": {
+      "title": "Unify step execution contract",
+      "must": "executor must call run(context, stepDefinition)",
+      "why": "All primitive steps depend on config fields like patterns, root"
+    },
+    "fix_2": {
+      "title": "Refactor selectFiles to use updated interface",
+      "must": "read patterns from stepDefinition",
+      "why": "Currently receives undefined → throws"
+    },
+    "fix_3": {
+      "title": "Refactor readFiles to read from context.selectedFiles",
+      "must": "remove dependency on params.files",
+      "why": "Pipeline never provides file list through params"
+    },
+    "fix_4": {
+      "title": "Add collect-files support into snapshotTool",
+      "must": "write state.collected or state.files",
+      "why": "Snapshots for collected-files currently impossible"
+    },
+    "fix_5": {
+      "title": "Normalize exports of primitive steps",
+      "must": "use export const run = (…) or default consistently",
+      "why": "Loader cannot import step modules reliably"
+    }
+  }
+}

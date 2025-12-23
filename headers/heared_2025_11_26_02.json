@@ -1,0 +1,90 @@
+{
+  "project": "MCP Server — Universal Agent v1",
+  "date": "2025-11-26",
+  "status": {
+    "recipes": {
+      "scan-project": "working",
+      "runtimeParams": "working",
+      "pipeline": "working",
+      "executor": "working"
+    },
+    "scan": {
+      "externalScan": "working",
+      "contextStateScan": "populated",
+      "storedOnBridge": true,
+      "storedOnServer": false
+    },
+    "tools": {
+      "core_getLastScan": "loaded",
+      "core_setLastContext": "NOT_IMPLEMENTED",
+      "snapshot": "working"
+    }
+  },
+  "diagnosis": {
+    "reason_lastContext_missing": [
+      "mcpState.lastContext is updated ONLY inside Bridge process",
+      "Bridge and Server are two separate Node processes",
+      "Their global/mcpState objects do NOT share memory",
+      "runRecipe() executes in BRIDGE",
+      "core_getLastScan reads from SERVER",
+      "→ therefore server always sees lastContext = undefined"
+    ],
+    "why_global_does_not_work": [
+      "global.mcpState.lastContext inside Bridge affects ONLY Bridge's RAM",
+      "Server runs in another process → separate RAM → no shared state"
+    ],
+    "conclusion": "Server does not know anything about Bridge-executed recipes"
+  },
+  "required_fix": {
+    "core_issue": "Bridge must send the final recipe context to Server via RPC",
+    "solution_summary": "Create server tool core_setLastContext and call it from Bridge after recipe execution",
+    "result": "Then core_getLastScan will work perfectly"
+  },
+  "fix_plan": {
+    "step_1": {
+      "task": "Create server tool core_setLastContext.js",
+      "path": "tools/core/setLastContext.js",
+      "status": "NOT_YET_CREATED",
+      "code": "server tool that writes params.context into mcpState.lastContext"
+    },
+    "step_2": {
+      "task": "Modify runRecipe.js in Bridge",
+      "path": "src/bridge/agent/runRecipe.js",
+      "status": "pending",
+      "replace": "global.mcpState.lastContext = context;",
+      "with": "await callMCP(\"core_setLastContext\", { context });"
+    },
+    "step_3": {
+      "task": "Ensure Bridge has callMCP() RPC helper",
+      "path": "src/bridge/agent/readFromMCP.js",
+      "status": "existing (requires integration)"
+    },
+    "step_4": {
+      "task": "Verify",
+      "actions": [
+        "Run scan-project recipe",
+        "Bridge sends context to server",
+        "Server stores it",
+        "core_getLastScan returns full scan object"
+      ]
+    }
+  },
+  "expected_result_after_fix": {
+    "core_getLastScan": {
+      "ok": true,
+      "scan": {
+        "root": "...",
+        "count": "N",
+        "files": "[...]",
+        "timestamp": "..."
+      }
+    },
+    "persistence": "Server now permanently knows lastContext until restart"
+  },
+  "next_actions": [
+    "Implement core_setLastContext.js",
+    "Patch runRecipe.js",
+    "Test with scan-project",
+    "Optional: add scan summary writer"
+  ]
+}

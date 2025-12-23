@@ -1,0 +1,81 @@
+{
+  "status_date": "2025-12-09",
+  "system": "mcp-server + bridge integration",
+  "summary": "Core pipeline works, executor fixed. collect-files recipe still failing because loadRecipe() is called incorrectly and step metadata does not reach steps.",
+  "critical_blockers": [
+    {
+      "id": "loader_wrong_signature",
+      "description": "runRecipe() incorrectly calls loadRecipe(context, recipeFile) instead of loadRecipe(recipeFile), causing recipe parsing failure.",
+      "effect": "Steps receive undefined metadata, so selectFiles reports missing patterns."
+    },
+    {
+      "id": "collect-files_step_metadata_not_passed",
+      "description": "Step.run(context, step) is correct, but step object is missing patterns due to recipe not loaded correctly.",
+      "effect": "selectFiles always throws 'patterns must be a non-empty array'."
+    }
+  ],
+  "secondary_issues": [
+    {
+      "id": "readFiles_default_export",
+      "resolved": true,
+      "description": "readFiles was not providing default export; fixed."
+    },
+    {
+      "id": "writeFiles_default_export",
+      "resolved": true
+    },
+    {
+      "id": "validateDocOnly_default_export",
+      "resolved": true
+    },
+    {
+      "id": "backupInit_and_backupFiles_default_export",
+      "resolved": true
+    }
+  ],
+  "working_components": [
+    "MCP server loads and exposes tools",
+    "core_setLastContext works correctly",
+    "bridge successfully sends lastContext with token",
+    "executor applies mutations and writes lastContext",
+    "selectFiles implementation is correct",
+    "fast-glob integration works",
+    "snapshotTool v1 OK, waiting for collect-files integration"
+  ],
+  "not_yet_working": [
+    "collect-files recipe (stops at step #0)",
+    "rootPath and targetFiles alignment for collect-files",
+    "core_snapshotTool requires scan or collected-files state"
+  ],
+  "tomorrow_absolute_tasks": [
+    {
+      "order": 1,
+      "task": "Fix loadRecipe() call in runRecipe.js",
+      "fix": "Change loadRecipe(context, recipeFile) → loadRecipe(recipeFile)"
+    },
+    {
+      "order": 2,
+      "task": "Verify loadRecipe returns a correct structured recipe object",
+      "expected": "steps: [{ id, type, run, patterns, root }]"
+    },
+    {
+      "order": 3,
+      "task": "Re-run collect-files; ensure step.patterns is passed",
+      "expected_outcome": "selectFiles matches files inside project"
+    },
+    {
+      "order": 4,
+      "task": "Ensure readFiles runs with params.files = selectedFiles"
+    },
+    {
+      "order": 5,
+      "task": "After successful pipeline: run core_snapshotTool to generate latest_<project>.md"
+    }
+  ],
+  "tomorrow_optional_tasks": [
+    "Implement collect-files → JSON chunk splitter in bridge/scripts",
+    "Improve snapshot naming for multi-project workflows",
+    "Add recipe parameter validation for collect-files YAML schema"
+  ],
+  "confidence": 0.97
+}

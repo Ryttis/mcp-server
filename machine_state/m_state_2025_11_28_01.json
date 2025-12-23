@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "generated_at": "2025-11-26T16:55:00+02:00",
+    "project": "MCP Server — Universal Agent v1",
+    "owner": "Rytis",
+    "purpose": "Full machine state snapshot for fast context reload after breaks"
+  },
+
+  "runtime": {
+    "server": {
+      "ws": "ws://localhost:4000",
+      "auth_token": "required",
+      "global_state_source": "src/server/state.js",
+      "mcpState": {
+        "tools_loaded": true,
+        "total_tools": 20,
+        "lastContext": "NOT_RECEIVED_FROM_BRIDGE",
+        "lastSnapshot": null
+      }
+    },
+    "bridge": {
+      "mode": "PROMPT_MODE_ACTIVE",
+      "recipe_execution": "working",
+      "can_call_mcp": true,
+      "context_storage": "LOCAL_TO_BRIDGE_ONLY",
+      "problem": "context_is_not_sent_to_server"
+    }
+  },
+
+  "core_status": {
+    "scan_project": {
+      "recipe": "OK",
+      "pipeline": "OK",
+      "executor": "OK",
+      "context_in_bridge": true,
+      "context_in_server": false
+    },
+    "tools": {
+      "core_getLastScan": "LOADED_BUT_EMPTY",
+      "core_setLastContext": "CREATED_BUT_NOT_USED",
+      "core_snapshotServer": "OK",
+      "snapshotTool": "OK"
+    }
+  },
+
+  "diagnostics": {
+    "root_problem": "Bridge and Server are separate Node processes with isolated memory",
+    "details": [
+      "Bridge stores context in its own RAM",
+      "Server stores tools + state in global.mcpState",
+      "Bridge never calls core_setLastContext",
+      "Server snapshots always empty because lastContext is never written"
+    ],
+    "impact": [
+      "latest.md useless",
+      "core_getLastScan always empty",
+      "cannot pass external project structure to AI agent on server",
+      "no real MCP agent memory"
+    ]
+  },
+
+  "project_tree_summary": {
+    "server": [
+      "server.js",
+      "src/server/loader.js",
+      "src/server/rpc.js",
+      "src/server/snapshot.js",
+      "src/server/state.js",
+      "src/server/workspace.js"
+    ],
+    "bridge": [
+      "src/bridge/agent/runRecipe.js",
+      "src/bridge/agent/readFromMCP.js",
+      "src/bridge/agent/utils.js",
+      "bridge.js"
+    ],
+    "agent": [
+      "context.js",
+      "pipeline.js",
+      "executor.js",
+      "scanner/index.js",
+      "steps/primitives",
+      "recipes/builtin"
+    ],
+    "tools": {
+      "core": [
+        "getLastScan.js",
+        "setLastContext.js",
+        "snapshotTool.js",
+        "projectStatus.js"
+      ],
+      "etno": ["listDir.js", "parseMaterial.js"],
+      "factura": ["readFile.js"]
+    }
+  },
+
+  "blocking_items": {
+    "1_context_sync": {
+      "status": "BLOCKING",
+      "reason": "Bridge never sends context to server",
+      "fix_required": true
+    },
+    "2_latest_md_state": {
+      "status": "INCORRECT",
+      "reason": "Server snapshot sees empty global.mcpState.tools",
+      "fix_required": true
+    },
+    "3_tool_namespace_collision": {
+      "status": "RISK",
+      "reason": "snapshotTool.js and snapshot.js both write latest.md",
+      "fix_required": false
+    }
+  },
+
+  "next_steps": [
+    {
+      "step": 1,
+      "task": "Finish core_setLastContext.js",
+      "path": "tools/core/setLastContext.js",
+      "expected_result": "Server receives full Bridge context"
+    },
+    {
+      "step": 2,
+      "task": "Modify runRecipe.js in bridge to call core_setLastContext",
+      "line": "await callMCP('core_setLastContext', { context });",
+      "expected_result": "context now synchronized"
+    },
+    {
+      "step": 3,
+      "task": "Verify with: run scan-project",
+      "expected_result": {
+        "core_getLastScan": "returns full scan",
+        "server.latest.md": "contains scan structure"
+      }
+    }
+  ],
+
+  "reactivation_plan": {
+    "steps": [
+      "1. Start server: node server.js",
+      "2. Start bridge: node bridge.js",
+      "3. Run test: core_ping",
+      "4. Run scan-project recipe",
+      "5. Trigger core_snapshotServer",
+      "6. Confirm latest.md is full"
+    ],
+    "time_to_full_context": "90 seconds"
+  }
+}
