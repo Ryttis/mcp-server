@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -20,10 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run basic check
+      - name: Run server check
         run: node server.js --help || true
 
-      - name: Deploy to server via SSH
+      - name: Deploy to Ubuntu via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -35,12 +35,12 @@ jobs:
             cd ${{ secrets.APP_DIR }}
 
             if [ ! -d .git ]; then
-              git clone git@github.com:Ryttis/mcp-server.git .
+              git clone https://github.com/Ryttis/mcp-server.git .
             else
               git pull origin main
             fi
 
-            npm install
+            npm install --omit=dev
 
             pm2 delete mcp-server || true
             pm2 start server.js --name mcp-server
