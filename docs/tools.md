@@ -269,6 +269,25 @@ Below are the frozen v1 contracts (to be refined in later steps without breaking
 - **Errors:** ToolError[INVALID_PATH, FS_ERROR, PARSE_ERROR]
 
 ---
+### core.analyzeFile
+
+> [MIGRATION] Moved from mcp-bridge analyze command.
+
+Analyze a file using AI.
+
+**Input:**
+- `path` (string) — path to file.
+
+**Output:**
+- `path` — file path
+- `length` — content length
+- `analysis` — AI-generated analysis
+
+**Errors:**
+- INVALID_INPUT
+- FILE_TOO_LARGE
+- OPENAI_KEY_MISSING
+- AI_ERROR
 
 ### etno.listDir
 

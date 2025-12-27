@@ -29,6 +29,7 @@ import coreCheckBilling from "./core/checkBilling.js";
 import coreLogParse from "./core/logParse.js";
 import coreLogSummarize from "./core/logSummarize.js";
 import coreAnalyzeGcode from "./core/analyzeGcode.js";
+import coreAnalyzeFile from "./core/analyzeFile.js";
 
 import etnoListDir from "./etno/listDir.js";
 import etnoReadFile from "./etno/readFile.js";
@@ -67,6 +68,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     { name: "core.logParse", version: "1.0.0", handler: coreLogParse },
     { name: "core.logSummarize", version: "1.0.0", handler: coreLogSummarize },
     { name: "core.analyzeGcode", version: "1.0.0", handler: coreAnalyzeGcode },
+    { name: "core.analyzeFile", version: "1.0.0", handler: coreAnalyzeFile },
 
     // etno
     { name: "etno.listDir", version: "1.0.0", handler: etnoListDir },

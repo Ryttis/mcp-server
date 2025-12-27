@@ -1,0 +1,109 @@
+{
+  "project": "mcp-server",
+  "milestone": "server-bridge-adjustment",
+  "phase": "kernel-stabilization",
+  "version": "v1",
+  "date": "2025-12-27",
+  "status": "COMPLETED",
+  "summary": {
+    "goal": "Stabilize and document MCP Server as a reliable kernel before any UI, protocol, memory, or ML work.",
+    "result": "Kernel is frozen, bounded, normalized, tested, documented, and verified by CI."
+  },
+  "completed_steps": [
+    {
+      "id": "srv-1",
+      "title": "Freeze tool surface",
+      "status": "done",
+      "outputs": ["docs/tools.md"]
+    },
+    {
+      "id": "srv-2",
+      "title": "Central tool registry",
+      "status": "done",
+      "outputs": ["tools/index.ts"]
+    },
+    {
+      "id": "srv-3",
+      "title": "Logic / IO separation",
+      "status": "done",
+      "outputs": ["tools/**/tool.logic.js", "tools/**/tool.io.js"]
+    },
+    {
+      "id": "srv-4",
+      "title": "Normalize ToolError",
+      "status": "done",
+      "outputs": ["errors/ToolError.js", "src/server/rpc.js"]
+    },
+    {
+      "id": "srv-5",
+      "title": "Smoke tests",
+      "status": "done",
+      "outputs": ["tests/tools/*.test.js"],
+      "verification": "node --test passed locally and in CI"
+    },
+    {
+      "id": "srv-6",
+      "title": "Resource guards",
+      "status": "done",
+      "outputs": [
+        "config/limits.js",
+        "readFile.io.js guards",
+        "listDir.io.js guards",
+        "rpc.js timeout enforcement"
+      ]
+    },
+    {
+      "id": "srv-7",
+      "title": "Server documentation",
+      "status": "done",
+      "outputs": [
+        "docs/README.md",
+        "docs/architecture.json",
+        "docs/rules.json"
+      ]
+    }
+  ],
+  "quality_gates": {
+    "tool_surface_frozen": true,
+    "logic_io_separated": true,
+    "errors_normalized": true,
+    "resources_bounded": true,
+    "smoke_tests_present": true,
+    "ci_green": true,
+    "documentation_complete": true
+  },
+  "invariants": [
+    "Logic never performs IO",
+    "All public tools live in registry",
+    "All errors are ToolError",
+    "All resources are bounded",
+    "Kernel behavior is documented",
+    "CI must pass before changes"
+  ],
+  "current_state": {
+    "kernel": "stable",
+    "public_surface": "v1 frozen",
+    "safety": "guards enforced",
+    "tests": "green",
+    "ci": "green"
+  },
+  "next_milestone": {
+    "name": "bridge-stabilization",
+    "code": "brg-1",
+    "goal": "Freeze bridge interfaces, normalize errors, document flows, and enforce adapter boundaries.",
+    "focus": [
+      "Inventory public endpoints",
+      "Freeze v1 surface",
+      "Remove business logic",
+      "Map ToolError to bridge errors",
+      "Lifecycle documentation",
+      "Bridge smoke tests"
+    ]
+  },
+  "notes": [
+    "Kernel v1 committed to git",
+    "GitHub Actions green",
+    "Server can now be treated as stable dependency",
+    "All future work must adapt to kernel rules"
+  ]
+}
