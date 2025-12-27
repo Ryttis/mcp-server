@@ -1,27 +1,10 @@
-import { mcpState } from "../../src/server/state.js";
+import { setLastContextLogic } from "./setLastContext.logic.js";
+import { setLastContextIO } from "./setLastContext.io.js";
 
 /**
- * core_setLastContext
- *
- * Kviečiamas iš Bridge:
- *   await callMCP("core_setLastContext", { context });
+ * Sets lastContext in MCP server state.
+ * Public tool entry point.
  */
 export default async function core_setLastContext(params = {}) {
-    const { context } = params || {};
-
-    if (!context) {
-        return {
-            ok: false,
-            message: "Missing 'context' in params. Use { context }.",
-        };
-    }
-
-    // ČIA – vienintelė vieta, kur atnaujinam serverio lastContext:
-    mcpState.lastContext = context;
-
-    return {
-        ok: true,
-        saved: true,
-        timestamp: new Date().toISOString(),
-    };
+    return setLastContextLogic(params, setLastContextIO);
 }

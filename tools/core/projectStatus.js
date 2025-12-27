@@ -10,6 +10,16 @@ export default function projectStatus() {
             return "(missing)";
         }
     };
+    import { projectStatusLogic } from "./projectStatus.logic.js";
+    import { projectStatusIO } from "./projectStatus.io.js";
+
+    /**
+     * Returns detailed project and server status.
+     * Public tool entry point.
+     */
+    export default async function projectStatus(params = {}) {
+        return projectStatusLogic(params, projectStatusIO);
+    }
 
     const tree = execSync("tree -I 'node_modules|.git'").toString();
 
@@ -26,10 +36,8 @@ export default function projectStatus() {
 
         workspaces: global.WORKSPACES || {},
 
-        // Directory snapshot
         tree,
 
-        // Critical files
         files: {
             "server.js": safeRead("./server.js"),
             "loader.js": safeRead("./src/server/loader.js"),

@@ -1,0 +1,147 @@
+{
+  "name": "mcp-server-kernel-rules",
+  "version": "v1",
+  "description": "Non-negotiable rules and invariants for the MCP Server kernel.",
+  "principles": [
+    {
+      "id": "stability-over-features",
+      "text": "Stability is prioritized over adding new features. The tool surface is frozen and versioned."
+    },
+    {
+      "id": "logic-is-pure",
+      "text": "All business logic must be pure and side-effect free."
+    },
+    {
+      "id": "io-is-boundary",
+      "text": "All filesystem, env, network, and state access must live in IO layers."
+    },
+    {
+      "id": "errors-normalized",
+      "text": "All errors must be thrown as ToolError and normalized at the RPC boundary."
+    },
+    {
+      "id": "resources-bounded",
+      "text": "All resource usage must be bounded by explicit limits."
+    },
+    {
+      "id": "documentation-first",
+      "text": "All public behavior must be documented. Undocumented behavior is considered a bug."
+    }
+  ],
+  "layer_rules": {
+    "rpc": {
+      "must": [
+        "Authenticate requests",
+        "Route calls to tools",
+        "Enforce execution timeouts",
+        "Normalize errors"
+      ],
+      "must_not": [
+        "Contain business logic",
+        "Perform filesystem or env IO",
+        "Mutate kernel state"
+      ]
+    },
+    "orchestrator": {
+      "must": [
+        "Bind logic and IO",
+        "Expose default handler"
+      ],
+      "must_not": [
+        "Contain business logic",
+        "Perform IO",
+        "Mutate state",
+        "Transform outputs"
+      ]
+    },
+    "logic": {
+      "must": [
+        "Validate inputs",
+        "Apply business rules",
+        "Shape outputs",
+        "Throw ToolError on failure"
+      ],
+      "must_not": [
+        "Access filesystem",
+        "Access environment variables",
+        "Perform network calls",
+        "Read or mutate global state"
+      ]
+    },
+    "io": {
+      "must": [
+        "Perform all side effects",
+        "Enforce resource limits",
+        "Read environment variables",
+        "Mutate kernel state if needed"
+      ],
+      "must_not": [
+        "Contain business rules",
+        "Shape outputs",
+        "Silently swallow errors"
+      ]
+    }
+  },
+  "tool_rules": [
+    "Each tool must follow orchestrator/logic/io structure",
+    "Each tool must have a single default-exported handler",
+    "Logic and IO must be in separate files",
+    "Tool names and versions must be declared in the registry",
+    "Breaking changes require version bump and documentation"
+  ],
+  "registry_rules": [
+    "The registry is the single source of truth for public tools",
+    "No tool is callable unless present in the registry",
+    "Removing or renaming tools is a breaking change",
+    "Registry must not contain inline logic"
+  ],
+  "error_rules": [
+    "Only ToolError may cross kernel boundaries",
+    "Error codes must be stable and documented",
+    "RPC layer must not leak stack traces",
+    "Unknown errors must map to INTERNAL_ERROR"
+  ],
+  "resource_rules": [
+    "All file reads must respect MAX_FILE_SIZE",
+    "All directory traversal must respect MAX_DIR_DEPTH and MAX_DIR_ENTRIES",
+    "All tool executions must respect TOOL_TIMEOUT_MS",
+    "Roots must be confined for project tools"
+  ],
+  "state_rules": [
+    "Kernel state lives in src/server/state.js",
+    "State may only be mutated in IO layers",
+    "Logic and orchestrators must treat state as read-only",
+    "State shape changes are breaking changes"
+  ],
+  "testing_rules": [
+    "Kernel must have smoke tests for representative tools",
+    "Tests must verify success and error paths",
+    "Tests should not mock layers unless necessary",
+    "Failing tests block kernel changes"
+  ],
+  "change_policy": {
+    "allowed": [
+      "Internal refactors that do not change behavior",
+      "Adding tests",
+      "Documentation improvements",
+      "Bug fixes that preserve contracts"
+    ],
+    "requires_version_bump": [
+      "Tool signature changes",
+      "Tool behavior changes",
+      "Limit changes",
+      "Error code changes",
+      "State shape changes"
+    ],
+    "forbidden_in_v1": [
+      "Adding new public tools",
+      "Changing existing tool names",
+      "Breaking orchestrator/logic/io separation",
+      "Introducing unbounded IO",
+      "Introducing undocumented behavior"
+    ]
+  },
+  "violation_policy": {
+    "text": "Any rule violation is treated as a kernel bug and must be fixed before new features are added."
+  }
+}

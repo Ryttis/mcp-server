@@ -1,15 +1,10 @@
-import { listDir } from "../../src/utils/fs/listDir.js";
+import { listDirLogic } from "./listDir.logic.js";
+import { listDirIO } from "./listDir.io.js";
 
 /**
- * RPC tool wrapper for listing directory contents.
- * @param {Object} params - Parameters for the tool.
- * @param {string} params.path - Directory to list.
- * @returns {Promise<Object>} Object with files array.
- * @example
- * { "id": 1, "method": "core_listDirTool", "params": { "path": "/path/to/directory" } }
+ * Lists directory contents.
+ * Public tool entry point.
  */
 export default async function listDirTool(params = {}) {
-    const basePath = params.path || process.cwd();
-    const files = await listDir(basePath);
-    return { files };
+    return listDirLogic(params, listDirIO);
 }

@@ -23,10 +23,12 @@ console.log("🧠 MCP Server state initialized:", {
 });
 
 (async () => {
-    await loadTools("./tools", "core");
+    await loadTools();
     console.log("🧩 Tools loaded:", Object.keys(mcpState.tools));
+
     global.WORKSPACES = initWorkspaces();
     const appendContextLog = initLogger();
+
     const wss = new WebSocketServer({ port: PORT });
     console.log(`🚀 MCP Server running on ws://localhost:${PORT}`);
 
@@ -35,10 +37,10 @@ console.log("🧠 MCP Server state initialized:", {
     );
 
     setInterval(serverSnapshot, 5 * 60 * 1000);
+
     process.on("SIGINT", async () => {
         console.log("\n🛑 Shutting down MCP Server...");
         await serverSnapshot();
         process.exit(0);
     });
-
 })();

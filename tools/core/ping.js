@@ -1,9 +1,10 @@
+import { pingLogic } from "./ping.logic.js";
+import { pingIO } from "./ping.io.js";
+
 /**
  * Checks connection to the MCP server.
- * @returns {Promise<Object>} Result object.
- * @example
- * { "id": 1, "method": "core_ping", "params": {} }
+ * Public tool entry point.
  */
-export default async function ping() {
-    return { message: "pong" };
+export default async function ping(params = {}) {
+    return pingLogic(params, pingIO);
 }

@@ -1,11 +1,10 @@
-import { readFile } from "fs/promises";
+import { readFileLogic } from "./readFile.logic.js";
+import { readFileIO } from "./readFile.io.js";
+
 /**
  * Reads a file and returns its content.
- * @param {Object} params - Parameters for the tool.
- * @returns {Promise<Object>} Result object.
+ * Public tool entry point.
  */
 export default async function readFileTool(params = {}) {
-    if (!params.path) throw new Error("Missing 'path' parameter");
-    const content = await readFile(params.path, "utf8");
-    return { content };
+    return readFileLogic(params, readFileIO);
 }

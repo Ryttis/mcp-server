@@ -1,0 +1,158 @@
+{
+  "name": "mcp-server-kernel",
+  "version": "v1",
+  "description": "Stabilized kernel providing bounded tool execution with strict separation of logic and IO.",
+  "layers": [
+    {
+      "name": "rpc",
+      "location": "src/server/rpc.js",
+      "responsibilities": [
+        "Receive JSON-RPC over WebSocket",
+        "Authenticate requests",
+        "Route calls to tools by name",
+        "Enforce execution timeouts",
+        "Normalize errors into RPC responses"
+      ],
+      "rules": [
+        "No business logic",
+        "No filesystem or env IO",
+        "Only protocol to kernel translation"
+      ]
+    },
+    {
+      "name": "orchestrator",
+      "location": "tools/**/tool.js",
+      "responsibilities": [
+        "Bind logic and IO layers",
+        "Expose default tool handler"
+      ],
+      "rules": [
+        "No business logic",
+        "No IO",
+        "No state mutation",
+        "Must only call logic(params, io)"
+      ],
+      "pattern": "export default async function tool(params) { return logic(params, io); }"
+    },
+    {
+      "name": "logic",
+      "location": "tools/**/tool.logic.js",
+      "responsibilities": [
+        "Validate inputs",
+        "Apply business rules",
+        "Shape outputs",
+        "Throw ToolError on failure"
+      ],
+      "rules": [
+        "Must be pure",
+        "No filesystem, env, network, or global state access",
+        "Only depend on injected io"
+      ]
+    },
+    {
+      "name": "io",
+      "location": "tools/**/tool.io.js",
+      "responsibilities": [
+        "Filesystem access",
+        "Environment access",
+        "Network calls",
+        "Kernel state mutation",
+        "Resource guard enforcement"
+      ],
+      "rules": [
+        "No business decisions",
+        "No output shaping",
+        "Throw ToolError for guard violations"
+      ]
+    }
+  ],
+  "tool_structure": {
+    "pattern": [
+      "tools/<namespace>/<tool>.js",
+      "tools/<namespace>/<tool>.logic.js",
+      "tools/<namespace>/<tool>.io.js"
+    ],
+    "namespaces": [
+      "core",
+      "etno",
+      "factura"
+    ]
+  },
+  "registry": {
+    "location": "tools/index.ts",
+    "purpose": [
+      "Define frozen public tool surface",
+      "Map tool names to handlers",
+      "Act as single source of truth for public tools"
+    ],
+    "rules": [
+      "No tool is callable unless listed here",
+      "Tool names and versions are stable"
+    ]
+  },
+  "state": {
+    "location": "src/server/state.js",
+    "fields": [
+      "startTime",
+      "lastContext",
+      "lastSnapshot",
+      "tools"
+    ],
+    "rules": [
+      "State may only be mutated in IO layers",
+      "Logic and orchestrators treat state as read-only"
+    ]
+  },
+  "limits": {
+    "location": "config/limits.js",
+    "enforced_in": [
+      "rpc",
+      "io"
+    ],
+    "guards": [
+      "MAX_FILE_SIZE",
+      "MAX_DIR_DEPTH",
+      "MAX_DIR_ENTRIES",
+      "TOOL_TIMEOUT_MS"
+    ]
+  },
+  "execution_flow": [
+    "RPC receives request",
+    "Authenticate and validate",
+    "Resolve tool from registry",
+    "Orchestrator binds logic and IO",
+    "Logic validates and delegates",
+    "IO performs side effects",
+    "Result returned to RPC",
+    "RPC sends normalized response"
+  ],
+  "error_flow": [
+    "Logic or IO throws ToolError",
+    "RPC catches and normalizes",
+    "Client receives { code, message, data }"
+  ],
+  "testing": {
+    "location": "tests/tools/*.test.js",
+    "purpose": [
+      "Verify tool loading",
+      "Verify success paths",
+      "Verify ToolError paths",
+      "Verify IO wiring"
+    ],
+    "type": "smoke"
+  },
+  "design_goals": [
+    "Predictability over flexibility",
+    "Boundaries over convenience",
+    "Stability over rapid change",
+    "Explicitness over magic"
+  ],
+  "invariants": [
+    "Logic never performs IO",
+    "IO never contains business logic",
+    "All errors are ToolError",
+    "All resources are bounded",
+    "All public tools are documented",
+    "Registry defines the public surface"
+  ]
+}

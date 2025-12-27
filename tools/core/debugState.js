@@ -1,8 +1,10 @@
-import { mcpState } from "../../src/server/state.js";
+import { debugStateLogic } from "./debugState.logic.js";
+import { debugStateIO } from "./debugState.io.js";
 
-export default async function core_debugState() {
-    return {
-        ok: true,
-        lastContext: mcpState.lastContext
-    };
+/**
+ * Returns internal debug state.
+ * Public tool entry point.
+ */
+export default async function core_debugState(params = {}) {
+    return debugStateLogic(params, debugStateIO);
 }

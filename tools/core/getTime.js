@@ -1,9 +1,10 @@
+import { getTimeLogic } from "./getTime.logic.js";
+import { getTimeIO } from "./getTime.io.js";
+
 /**
  * Gets the current time in ISO format.
- * @returns {Promise<Object>} Result object.
- * @example
- * getTime().then(result => console.log(result)); // { "time": "2023-10-01T12:00:00.000Z" }
+ * Public tool entry point.
  */
-export default async function getTime() {
-    return { time: new Date().toISOString() };
+export default async function getTime(params = {}) {
+    return getTimeLogic(params, getTimeIO);
 }
