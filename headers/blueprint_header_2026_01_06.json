@@ -1,0 +1,40 @@
+{
+    "system": "MCP Server Kernel",
+    "version": "1.0.0",
+    "status": "frozen",
+    "description": "Minimalist, stable bedrock for the MCP ecosystem. Exposes capability tools via compliant JSON-RPC 2.0 over WebSocket. Strictly separates Logic from IO.",
+    "architecture": {
+        "runtime": {
+            "path": "src/server",
+            "role": "Kernel",
+            "components": {
+                "rpc.js": "Handles transport, message validation, and error normalization",
+                "loader.js": "Discovers and registers tools from /tools directory",
+                "snapshot.js": "Manages periodic state persistence",
+                "workspace.js": "Resolves and validates workspace paths",
+                "logger.js": "Operational system logging (not agent tracing)"
+            }
+        },
+        "tooling": {
+            "path": "tools",
+            "role": " Capabilities",
+            "structure": "Domain-grouped (core, etno, factura)",
+            "contract": {
+                "separation": "Files must be split into *.logic.js (pure) and *.io.js (side-effects)",
+                "registry": "All tools must be exported via tools/index.ts",
+                "errors": "All failures must be thrown as ToolError"
+            }
+        }
+    },
+    "principles": [
+        "Logic/IO Separation: Business logic is testable without mocks.",
+        "Bounded Execution: Operations have strict timeouts and size limits.",
+        "Statelessness: Tools do not retain state between calls (except via global mcpState).",
+        "Explicit Surface: Only registered tools are callable."
+    ],
+    "security": {
+        "guards": "IO operations are gatekept by config/limits.js",
+        "validation": "Input schemas are strictly enforced per tool",
+        "isolation": "Server Kernel has zero knowledge of Agent/Bridge concepts"
+    }
+}

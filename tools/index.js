@@ -38,16 +38,8 @@ import etnoParseMaterial from "./etno/parseMaterial.js";
 
 import facturaReadFile from "./factura/readFile.js";
 
-export type ToolHandler = (input: any) => any | Promise<any>;
 
-
-export interface ToolDefinition {
-    name: string;
-    version: string;
-    handler: ToolHandler;
-}
-
-export const TOOL_REGISTRY: ToolDefinition[] = [
+export const TOOL_REGISTRY = [
     // core
     { name: "core.ping", version: "1.0.0", handler: corePing },
     { name: "core.getTime", version: "1.0.0", handler: coreGetTime },
@@ -83,9 +75,8 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
 /**
  * Convenience map for fast lookup by name.
  */
-export const TOOL_REGISTRY_MAP: Record<string, ToolDefinition> =
+export const TOOL_REGISTRY_MAP =
     TOOL_REGISTRY.reduce((acc, t) => {
         acc[t.name] = t;
         return acc;
-    }, {} as Record<string, ToolDefinition>);
-
+    }, {});

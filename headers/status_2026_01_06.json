@@ -1,0 +1,129 @@
+{
+    "project": "mcp-server",
+    "milestone": "bridge-removal",
+    "phase": "cleanup",
+    "version": "1.0.0",
+    "date": "2026-01-06",
+    "status": "PLANNED",
+    "summary": {
+        "goal": "Finish bridge removal and freeze server kernel as per improve_steps_2026_01_05.",
+        "result": "Pending execution of cleanup steps."
+    },
+    "completed_steps": [
+        {
+            "id": "srv-1",
+            "title": "Freeze tool surface",
+            "status": "done",
+            "outputs": [
+                "docs/tools.md"
+            ]
+        },
+        {
+            "id": "srv-2",
+            "title": "Central tool registry",
+            "status": "done",
+            "outputs": [
+                "tools/index.ts"
+            ]
+        },
+        {
+            "id": "srv-3",
+            "title": "Logic / IO separation",
+            "status": "done",
+            "outputs": [
+                "tools/**/tool.logic.js",
+                "tools/**/tool.io.js"
+            ]
+        },
+        {
+            "id": "srv-4",
+            "title": "Normalize ToolError",
+            "status": "done",
+            "outputs": [
+                "errors/ToolError.js",
+                "src/server/rpc.js"
+            ]
+        },
+        {
+            "id": "srv-5",
+            "title": "Smoke tests",
+            "status": "done",
+            "outputs": [
+                "tests/tools/*.test.js"
+            ],
+            "verification": "node --test passed locally and in CI"
+        },
+        {
+            "id": "srv-6",
+            "title": "Resource guards",
+            "status": "done",
+            "outputs": [
+                "config/limits.js",
+                "readFile.io.js guards",
+                "listDir.io.js guards",
+                "rpc.js timeout enforcement"
+            ]
+        },
+        {
+            "id": "srv-7",
+            "title": "Server documentation",
+            "status": "done",
+            "outputs": [
+                "docs/README.md",
+                "docs/architecture.json",
+                "docs/rules.json"
+            ]
+        }
+    ],
+    "quality_gates": {
+        "tool_surface_frozen": true,
+        "logic_io_separated": true,
+        "errors_normalized": true,
+        "resources_bounded": true,
+        "smoke_tests_present": true,
+        "ci_green": true,
+        "documentation_complete": true
+    },
+    "invariants": [
+        "Logic never performs IO",
+        "All public tools live in registry",
+        "All errors are ToolError",
+        "All resources are bounded",
+        "Kernel behavior is documented",
+        "CI must pass before changes"
+    ],
+    "current_state": {
+        "kernel": "stable",
+        "public_surface": "v1 (awaiting cleanup)",
+        "bridge": "present (deprecated)",
+        "safety": "guards enforced",
+        "tests": "green"
+    },
+    "next_milestone": {
+        "name": "bridge-removal",
+        "goal": "Remove bridge, agent, and blueprint code to stabilize kernel.",
+        "plan_source": "headers/improve_steps_2026_01_05.json",
+        "steps": [
+            "Delete bridge.js from mcp-server",
+            "Remove src/bridge/** from mcp-server",
+            "Remove src/agent/** from mcp-server",
+            "Remove blueprint/** from mcp-server",
+            "Remove bridge-only utilities from src/utils/**",
+            "Clean package.json scripts (remove bridge entries)",
+            "Remove bridge-only dependencies from package.json",
+            "Search and remove any bridge, agent, recipe, step imports",
+            "Remove server logic expecting recipes or orchestration",
+            "Delete tools used only by bridge",
+            "Decide final fate of tools/index.ts (move to contracts or delete)",
+            "Move historical headers/snapshots out of source tree",
+            "Update .gitignore for history/diagnostics files",
+            "Run server-only tests and startup",
+            "Verify server runs without bridge present"
+        ]
+    },
+    "notes": [
+        "Kernel v1 is stable",
+        "Cleanup phase initiated to minimize surface area",
+        "bridge.js and related files are slated for removal"
+    ]
+}

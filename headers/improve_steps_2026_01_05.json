@@ -1,0 +1,66 @@
+{
+    "project": "mcp-server",
+    "goal": "Finish bridge removal and freeze server kernel",
+    "steps": [
+        {
+            "order": 1,
+            "action": "Delete bridge.js from mcp-server"
+        },
+        {
+            "order": 2,
+            "action": "Remove src/bridge/** from mcp-server"
+        },
+        {
+            "order": 3,
+            "action": "Remove src/agent/** from mcp-server"
+        },
+        {
+            "order": 4,
+            "action": "Remove blueprint/** from mcp-server"
+        },
+        {
+            "order": 5,
+            "action": "Remove bridge-only utilities from src/utils/**"
+        },
+        {
+            "order": 6,
+            "action": "Clean package.json scripts (remove bridge entries)"
+        },
+        {
+            "order": 7,
+            "action": "Remove bridge-only dependencies from package.json"
+        },
+        {
+            "order": 8,
+            "action": "Search and remove any bridge, agent, recipe, step imports"
+        },
+        {
+            "order": 9,
+            "action": "Remove server logic expecting recipes or orchestration"
+        },
+        {
+            "order": 10,
+            "action": "Delete tools used only by bridge"
+        },
+        {
+            "order": 11,
+            "action": "Decide final fate of tools/index.ts (move to contracts or delete)"
+        },
+        {
+            "order": 12,
+            "action": "Move historical headers/snapshots out of source tree"
+        },
+        {
+            "order": 13,
+            "action": "Update .gitignore for history/diagnostics files"
+        },
+        {
+            "order": 14,
+            "action": "Run server-only tests and startup"
+        },
+        {
+            "order": 15,
+            "action": "Verify server runs without bridge present"
+        }
+    ]
+}
