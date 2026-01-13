@@ -82,7 +82,6 @@ src/**/debug.log
 # JetBrains IDE
 # ---------------------------------------
 *.iml
-.idea/
 
 # ---------------------------------------
 # Local test artifacts
