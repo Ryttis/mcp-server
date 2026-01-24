@@ -15,6 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "@ryttis/logpilot": "^1.0.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "csv-parse": "^6.1.0",
     "dotenv": "^17.2.3",
     "mcp-memory": "file:../mcp-memory",

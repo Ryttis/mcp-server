@@ -1,15 +1,11 @@
-/**
- * 🧩 MCP RPC Handler — routes JSON-RPC messages to loaded tools
- * Kernel-safe, WebSocket-native, no buffering, no prompt logic
- */
-
 import { ToolError } from "../../errors/ToolError.js";
 import { LIMITS } from "../../config/limits.js";
+import {
+    validateToolInput,
+    validateToolOutput,
+    validateContextBlock
+} from "./protocolValidator.js";
 
-/**
- * Tries to parse as many complete JSON objects as possible from the input buffer.
- * Returns { messages: any[], remainder: string }
- */
 function tryParseMessages(input) {
     if (!input || !input.trim()) return { messages: [], remainder: input };
 
@@ -17,59 +13,44 @@ function tryParseMessages(input) {
     let depth = 0;
     let start = 0;
     let inString = false;
-    let paramsEscape = false;
+    let escape = false;
     let lastValidEnd = 0;
 
-    // Scan through input to find complete JSON objects
     for (let i = 0; i < input.length; i++) {
         const char = input[i];
 
         if (inString) {
-            if (paramsEscape) {
-                paramsEscape = false;
-            } else if (char === '\\') {
-                paramsEscape = true;
-            } else if (char === '"') {
+            if (escape) {
+                escape = false;
+            } else if (char === "\\") {
+                escape = true;
+            } else if (char === "\"") {
                 inString = false;
             }
             continue;
         }
 
-        if (char === '"') {
+        if (char === "\"") {
             inString = true;
             continue;
         }
 
-        if (char === '{') {
+        if (char === "{") {
             if (depth === 0) start = i;
             depth++;
-        } else if (char === '}') {
+        } else if (char === "}") {
             depth--;
             if (depth === 0) {
-                // Potential object end found
                 const chunk = input.slice(start, i + 1);
                 try {
-                    const parsed = JSON.parse(chunk);
-                    messages.push(parsed);
+                    messages.push(JSON.parse(chunk));
                     lastValidEnd = i + 1;
-                } catch (err) {
-                    // Start definitely looked like an object but failed parse.
-                    // This implies malformed JSON in the stream.
-                    // We consume it to avoid stuck buffer, but log error.
-                    console.error("RPC Stream Malformed Chunk:", chunk);
-                    lastValidEnd = i + 1; // Discard this chunk
+                } catch {
+                    lastValidEnd = i + 1;
                 }
             }
         }
     }
-
-    // If we have characters before the first {, discard them (whitespace/noise)
-    // Actually, we should just return what's left after the last valid object.
-
-    // However, if we didn't find ANY objects, but have content, we need to decide:
-    // Is it incomplete (depth > 0) or garbage?
-    // For specific start index logic, simple approach:
-    // Everything up to lastValidEnd is consumed.
 
     return {
         messages,
@@ -78,17 +59,13 @@ function tryParseMessages(input) {
 }
 
 export async function handleRpc(ws, req, AUTH_TOKEN, appendContextLog) {
-    // Initialize connection buffer
     ws.internalBuffer = "";
 
     ws.on("message", async (rawMessage) => {
         try {
-            const chunk = rawMessage.toString();
-            ws.internalBuffer += chunk;
+            ws.internalBuffer += rawMessage.toString();
 
-            // Enforce max buffer size to prevent memory leaks from noise/attacks
-            if (ws.internalBuffer.length > 1024 * 1024) { // 1MB limit
-                console.error("RPC Buffer overflow, disconnecting client");
+            if (ws.internalBuffer.length > 1024 * 1024) {
                 ws.terminate();
                 return;
             }
@@ -96,17 +73,35 @@ export async function handleRpc(ws, req, AUTH_TOKEN, appendContextLog) {
             const { messages, remainder } = tryParseMessages(ws.internalBuffer);
             ws.internalBuffer = remainder;
 
-            // Process fully parsed messages
             for (const data of messages) {
                 await processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data);
             }
-
-        } catch (err) {
-            console.error("RPC Fatal Error:", err);
-            // In fatal logic error, we might clear buffer to recover
+        } catch {
             ws.internalBuffer = "";
         }
     });
+}
+
+function normalizeParams(params) {
+    let p = params;
+
+    if (Array.isArray(p)) {
+        p = p.length === 1 ? p[0] : p;
+    }
+
+    while (typeof p === "string") {
+        try {
+            p = JSON.parse(p);
+        } catch {
+            throw new ToolError("INVALID_PARAMS", "Params must be valid JSON");
+        }
+    }
+
+    if (typeof p !== "object" || p === null || Array.isArray(p)) {
+        throw new ToolError("INVALID_PARAMS", "Params must be JSON object");
+    }
+
+    return p;
 }
 
 async function processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data) {
@@ -126,10 +121,7 @@ async function processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data) {
             ws.send(JSON.stringify({
                 jsonrpc: "2.0",
                 id,
-                error: {
-                    code: "UNAUTHORIZED",
-                    message: "Unauthorized"
-                }
+                error: { code: "UNAUTHORIZED", message: "Unauthorized" }
             }));
             return;
         }
@@ -139,31 +131,35 @@ async function processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data) {
             ws.send(JSON.stringify({
                 jsonrpc: "2.0",
                 id,
-                error: {
-                    code: "UNKNOWN_METHOD",
-                    message: `Unknown method: ${method}`
-                }
+                error: { code: "UNKNOWN_METHOD", message: `Unknown method: ${method}` }
             }));
             return;
         }
 
+        const parsedParams = normalizeParams(params);
+
+        validateToolInput(method, parsedParams);
+
         const result = await Promise.race([
-            tool(params),
+            tool(parsedParams),
             new Promise((_, reject) =>
                 setTimeout(() => {
-                    reject(
-                        new ToolError(
-                            "TIMEOUT",
-                            `Tool execution exceeded ${LIMITS.TOOL_TIMEOUT_MS} ms`,
-                            { timeout: LIMITS.TOOL_TIMEOUT_MS }
-                        )
-                    );
+                    reject(new ToolError("TIMEOUT", "Tool timeout"));
                 }, LIMITS.TOOL_TIMEOUT_MS)
             )
         ]);
 
-        if (appendContextLog)
-            appendContextLog(`[${new Date().toISOString()}] ${method}`);
+        validateToolOutput(method, result);
+
+        if (Array.isArray(result)) {
+            for (const item of result) {
+                if (item?.type?.startsWith("mcp.context.")) {
+                    validateContextBlock(item);
+                }
+            }
+        }
+
+        if (appendContextLog) appendContextLog(`[${new Date().toISOString()}] ${method}`);
 
         ws.send(JSON.stringify({
             jsonrpc: "2.0",
@@ -172,27 +168,23 @@ async function processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data) {
         }));
 
     } catch (err) {
-        console.error("RPC error:", err);
-
-        if (err instanceof ToolError) {
+        if (err.code === "PROTOCOL_VIOLATION" || err.code === "INVALID_PARAMS") {
             ws.send(JSON.stringify({
                 jsonrpc: "2.0",
                 id,
                 error: {
                     code: err.code,
                     message: err.message,
-                    data: err.data
+                    data: err.details || null
                 }
             }));
-        } else {
-            ws.send(JSON.stringify({
-                jsonrpc: "2.0",
-                id,
-                error: {
-                    code: "INTERNAL_ERROR",
-                    message: "Internal server error"
-                }
-            }));
+            return;
         }
+
+        ws.send(JSON.stringify({
+            jsonrpc: "2.0",
+            id,
+            error: { code: "INTERNAL_ERROR", message: "Internal server error" }
+        }));
     }
 }
