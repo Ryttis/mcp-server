@@ -12,6 +12,8 @@ import { initLogger } from "./src/server/logger.js";
 import { initWorkspaces } from "./src/server/workspace.js";
 import { serverSnapshot } from "./src/server/snapshot.js";
 import { mcpState } from "./src/server/state.js";
+import MCP_PROTOCOL from "./src/server/protocol.js";
+
 
 dotenv.config();
 
@@ -36,6 +38,9 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
 
     const wss = new WebSocketServer({ port });
     console.log(`🚀 MCP Server running on ws://localhost:${port}`);
+    console.log(
+        `[MCP] Protocol ${MCP_PROTOCOL.name} ${MCP_PROTOCOL.version} loaded in ${MCP_PROTOCOL.mode} mode`
+    );
 
     wss.on("connection", (ws, req) =>
         handleRpc(ws, req, AUTH_TOKEN, appendContextLog)
@@ -51,7 +56,6 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
             snapshotInterval = null;
         }
 
-        // Close all WS connections immediately
         wss.clients.forEach(client => client.terminate());
         wss.close();
 
