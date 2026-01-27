@@ -1,0 +1,2728 @@
+{
+  "scan": {
+    "root": ".",
+    "count": 140,
+    "timestamp": "2026-01-24T22:36:56.687Z",
+    "gitignore": {
+      "applied": true,
+      "rules": 47
+    },
+    "files": [
+      {
+        "path": "/Users/Ryttis/mcp-server/.gitignore",
+        "relativePath": ".gitignore",
+        "size": 1832,
+        "extension": null,
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 99,
+        "hash": "eaa788423524217ab679160ae05b418be18923f5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/package.json",
+        "relativePath": "package.json",
+        "size": 792,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 32,
+        "hash": "4e6c9ba5e42231317f28859f1b3442a3bdc3b47c",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/server.js",
+        "relativePath": "server.js",
+        "size": 2129,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 79,
+        "hash": "588d093c4162da5e34e950eff93edd325fc07b72",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/config/limits.js",
+        "relativePath": "config/limits.js",
+        "size": 341,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 19,
+        "hash": "e55077980e39887b9d8eabff2a46b10285d31a1d",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/docs/README.md",
+        "relativePath": "docs/README.md",
+        "size": 2361,
+        "extension": "md",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 108,
+        "hash": "39a527721eeaca2e6add34c0e072593c27162a79",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/docs/architecture.json",
+        "relativePath": "docs/architecture.json",
+        "size": 3972,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 159,
+        "hash": "63f32b3424f6f8329f4ca2a13ecdc50e8edef74f",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/docs/rules.json",
+        "relativePath": "docs/rules.json",
+        "size": 4451,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 148,
+        "hash": "8d3327787f628d81fa1b8776967aea63270c7146",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/docs/tools.md",
+        "relativePath": "docs/tools.md",
+        "size": 6926,
+        "extension": "md",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 358,
+        "hash": "b442c21265f70e844e669e9e808333a2faae1320",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/errors/ToolError.js",
+        "relativePath": "errors/ToolError.js",
+        "size": 805,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 32,
+        "hash": "22c7d89078e53d443c1e101c27225bc648603ac3",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/backup-strategy-header.md",
+        "relativePath": "headers/backup-strategy-header.md",
+        "size": 1710,
+        "extension": "md",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 57,
+        "hash": "7ae451e04e5799ff8472f75ff9bf5b27dc39c5e3",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/blueprint_header_2026_01_06.json",
+        "relativePath": "headers/blueprint_header_2026_01_06.json",
+        "size": 1858,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 40,
+        "hash": "a27cb11362bf0df4c6151d14ac442a38ceb6e829",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/header-status-2026-01-24.json",
+        "relativePath": "headers/header-status-2026-01-24.json",
+        "size": 1529,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 48,
+        "hash": "f049b432dafdff4950bfa8673b06315e798a5736",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/header_2025_12_22.json",
+        "relativePath": "headers/header_2025_12_22.json",
+        "size": 4078,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 133,
+        "hash": "56e79c678d72fb4592aafb5b2f0020a02335fdf4",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/header_2025_12_27.json",
+        "relativePath": "headers/header_2025_12_27.json",
+        "size": 2894,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 110,
+        "hash": "27e2fb465e8d5a41d2fd3e502e338f82e72c2c76",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/header_2026_01_06.json",
+        "relativePath": "headers/header_2026_01_06.json",
+        "size": 3144,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 86,
+        "hash": "e76edf69efc783bea86668edcbb42d51264e7149",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/improve_steps_2026_01_05.json",
+        "relativePath": "headers/improve_steps_2026_01_05.json",
+        "size": 1834,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 66,
+        "hash": "a8fc651d929da988ab5e2d78aee935769afd7c9c",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/latest_mcp-server.json",
+        "relativePath": "headers/latest_mcp-server.json",
+        "size": 44534,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 1472,
+        "hash": "263ee76e0867e6a8a291a9216aca8f2cfaddf03a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/latest_phr-website.md",
+        "relativePath": "headers/latest_phr-website.md",
+        "size": 228,
+        "extension": "md",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 14,
+        "hash": "88e9d7262e5ab5c733e690383279f568d8fd8dd7",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/refactoring_mode.json",
+        "relativePath": "headers/refactoring_mode.json",
+        "size": 4201,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 110,
+        "hash": "9606426a9e49804b888c10d5384a91024dc3ecd1",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/scan-project_2026-01-08.json",
+        "relativePath": "headers/scan-project_2026-01-08.json",
+        "size": 63530,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 2236,
+        "hash": "343fa8d6f06451cba18e3ef99aefca3886c243b6",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/scan-project_2026-01-24.json",
+        "relativePath": "headers/scan-project_2026-01-24.json",
+        "size": 77835,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 2668,
+        "hash": "60f8734505c248f28ca9760d1ff290c3ad4036d2",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/split_blueprint_v1.json",
+        "relativePath": "headers/split_blueprint_v1.json",
+        "size": 5229,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 187,
+        "hash": "ea7a15cb4611e401f6a9d27b5ea181ec973a2be7",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/headers/status_2026_01_06.json",
+        "relativePath": "headers/status_2026_01_06.json",
+        "size": 4158,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 129,
+        "hash": "4e009fff20f690992910c60b419dab55b739816d",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/machine_state/m_state_2025_11_28_01.json",
+        "relativePath": "machine_state/m_state_2025_11_28_01.json",
+        "size": 3945,
+        "extension": "json",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 150,
+        "hash": "025b60172527c1b85c868dd9125b024b82c97089",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/rpc_parser_test.js",
+        "relativePath": "tests/rpc_parser_test.js",
+        "size": 2654,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 96,
+        "hash": "4e48ebd5cac7b5b4e6453b75d4eff9b80bbcad07",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/index.js",
+        "relativePath": "tools/index.js",
+        "size": 4155,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 90,
+        "hash": "a9b44c2896fa162341f92265f011dc2a7bf1e179",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/.github/workflows/deploy.yml",
+        "relativePath": ".github/workflows/deploy.yml",
+        "size": 1005,
+        "extension": "yml",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 46,
+        "hash": "57bbb3cb909847de66b884a460acb0714bf1b6f5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/config.js",
+        "relativePath": "src/server/config.js",
+        "size": 164,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 8,
+        "hash": "c5151c3f9fb0c9db0a507377b458cf472fbfd7a7",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/loader.js",
+        "relativePath": "src/server/loader.js",
+        "size": 803,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 24,
+        "hash": "9402359e55929d4960c0e4cb3e26f269cf4ee123",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/logger.js",
+        "relativePath": "src/server/logger.js",
+        "size": 575,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 19,
+        "hash": "2624753acad1452c592c6621e5ab08a7db4246e1",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/memoryAdapter.js",
+        "relativePath": "src/server/memoryAdapter.js",
+        "size": 723,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 29,
+        "hash": "6ba0a6f5c509f74a2124f1912ac2f77018f5a369",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/protocol.js",
+        "relativePath": "src/server/protocol.js",
+        "size": 311,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 14,
+        "hash": "a03b0d098ebd9dfa9cfddbde22cec26622449429",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/protocolValidator.js",
+        "relativePath": "src/server/protocolValidator.js",
+        "size": 2455,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 84,
+        "hash": "a981e7df31781c2fb3a3c541dd6a32e8fdad6182",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/rpc.js",
+        "relativePath": "src/server/rpc.js",
+        "size": 5058,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 191,
+        "hash": "3e1a77a1314345a8a3b35c956ceb5110e56aac4a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/snapshot.js",
+        "relativePath": "src/server/snapshot.js",
+        "size": 1332,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 50,
+        "hash": "3701b416dfad189ac93c3a042b046339fcec9392",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/state.js",
+        "relativePath": "src/server/state.js",
+        "size": 309,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 15,
+        "hash": "efed3157ad893bc8fbb1c7f559761aad09bac8e5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/server/workspace.js",
+        "relativePath": "src/server/workspace.js",
+        "size": 219,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "a44c0ffa8338a261a68790b337aabee5083d4c19",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/integration/kernel_immutability.test.js",
+        "relativePath": "tests/integration/kernel_immutability.test.js",
+        "size": 1669,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 71,
+        "hash": "a7dd2bd3a665f0983587400b78462159bd58b9a8",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/tools/analyzeFile.test.js",
+        "relativePath": "tests/tools/analyzeFile.test.js",
+        "size": 289,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "b3db068a12384f547f0f4a001ce7de7d68eb74d8",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/tools/getTime.test.js",
+        "relativePath": "tests/tools/getTime.test.js",
+        "size": 472,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 17,
+        "hash": "0269d51ad65487a7427df41f79f06f227fe6b082",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/tools/ping.test.js",
+        "relativePath": "tests/tools/ping.test.js",
+        "size": 264,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "cb40c4047765df9b355d6c59f93df13c9bd05999",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/tools/readFile.test.js",
+        "relativePath": "tests/tools/readFile.test.js",
+        "size": 522,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 17,
+        "hash": "0d270d3baca41018eb6d767c7d23c9c408197529",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tests/tools/writeFile.test.js",
+        "relativePath": "tests/tools/writeFile.test.js",
+        "size": 636,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 23,
+        "hash": "b44d1efce530c555f4b563d83c75072ccba645cc",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeFile.io.js",
+        "relativePath": "tools/core/analyzeFile.io.js",
+        "size": 1547,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 54,
+        "hash": "75681c6399a204dc5fb9bd9e03689f2d72a264c1",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeFile.js",
+        "relativePath": "tools/core/analyzeFile.js",
+        "size": 307,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "639e2f134b45eab699164723e4764c6fc572e2b3",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeFile.logic.js",
+        "relativePath": "tools/core/analyzeFile.logic.js",
+        "size": 538,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 23,
+        "hash": "0c2cdd52ae957bbb2c18e0a14d8695fb589e1195",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeGcode.io.js",
+        "relativePath": "tools/core/analyzeGcode.io.js",
+        "size": 442,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 21,
+        "hash": "073ebc6e8bfe0ec883a94b937f09d6fd61b7772e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeGcode.js",
+        "relativePath": "tools/core/analyzeGcode.js",
+        "size": 336,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "61f940ea298e5e73b95432b588b783b9685ab9e2",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/analyzeGcode.logic.js",
+        "relativePath": "tools/core/analyzeGcode.logic.js",
+        "size": 1589,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 55,
+        "hash": "7df331bf7d856248683b0b7cf57c4e81385d3cee",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/cache.io.js",
+        "relativePath": "tools/core/cache.io.js",
+        "size": 545,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 27,
+        "hash": "29306746fdba954b70f2aa26ef1ba3d766c4cb41",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/cache.js",
+        "relativePath": "tools/core/cache.js",
+        "size": 264,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "8c5be2938b562213f4830527c46cc87cb0f28894",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/cache.logic.js",
+        "relativePath": "tools/core/cache.logic.js",
+        "size": 863,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 36,
+        "hash": "e2134eab79746facd362070781d62d8a5e95b801",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/checkBilling.io.js",
+        "relativePath": "tools/core/checkBilling.io.js",
+        "size": 912,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 36,
+        "hash": "193c712fcf197a32ad581ac1c6ede52e5df3c72a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/checkBilling.js",
+        "relativePath": "tools/core/checkBilling.js",
+        "size": 312,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "37006f266f89d36c20ecef9dbc9e471da0888a8f",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/checkBilling.logic.js",
+        "relativePath": "tools/core/checkBilling.logic.js",
+        "size": 1023,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 36,
+        "hash": "455a62cff547702dcb30828f5b67d340480ac0f2",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/dbQuery.io.js",
+        "relativePath": "tools/core/dbQuery.io.js",
+        "size": 540,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 23,
+        "hash": "001bc5fbcea66694338150141a4fe4463516812a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/dbQuery.js",
+        "relativePath": "tools/core/dbQuery.js",
+        "size": 295,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "07e48bbff583364ce7d0b19af19ab19ebf13e82a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/dbQuery.logic.js",
+        "relativePath": "tools/core/dbQuery.logic.js",
+        "size": 244,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "0a324ccc57c0684d2c598c91c27ebd9ae3c3a6f9",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/debugState.io.js",
+        "relativePath": "tools/core/debugState.io.js",
+        "size": 204,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "577ca2b309abca8498321a51d7d82fa4cc61e215",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/debugState.js",
+        "relativePath": "tools/core/debugState.js",
+        "size": 291,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "945b69ad5cbf09a15ef2cb9bfaaba5b245ea232e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/debugState.logic.js",
+        "relativePath": "tools/core/debugState.logic.js",
+        "size": 246,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 13,
+        "hash": "1ee0cd239318f683b8f108f4678d68511b02c253",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getLastScan.io.js",
+        "relativePath": "tools/core/getLastScan.io.js",
+        "size": 224,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "d67fedbe6c91f7145326e797954818e04c32dbd5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getLastScan.js",
+        "relativePath": "tools/core/getLastScan.js",
+        "size": 307,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "0141fcf30dcc1d0cb878dfe84d946a776e8a5c11",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getLastScan.logic.js",
+        "relativePath": "tools/core/getLastScan.logic.js",
+        "size": 615,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 31,
+        "hash": "60819b37b0ecc055354f2dc898589e982863bdc1",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getTime.io.js",
+        "relativePath": "tools/core/getTime.io.js",
+        "size": 146,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "68c94b21640e852c336dd861a554fb6e6518d680",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getTime.js",
+        "relativePath": "tools/core/getTime.js",
+        "size": 272,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "b5bb52c2268adbcbb0a4f6da19eb374af4b87460",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/getTime.logic.js",
+        "relativePath": "tools/core/getTime.logic.js",
+        "size": 203,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 9,
+        "hash": "9c7b6a1051bcdba242c22173267feccede6bc283",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/listDir.io.js",
+        "relativePath": "tools/core/listDir.io.js",
+        "size": 1128,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 42,
+        "hash": "d3bde759b9a25817235341dea13606800680c383",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/listDir.js",
+        "relativePath": "tools/core/listDir.js",
+        "size": 265,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "c3fffa86ed34c90ab8680a0ebffc3cf8a4a1f24b",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/listDir.logic.js",
+        "relativePath": "tools/core/listDir.logic.js",
+        "size": 241,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "2de7365b3d0bbe8d0bfa1fd28e10daa9dab56b33",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logParse.io.js",
+        "relativePath": "tools/core/logParse.io.js",
+        "size": 222,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "c3f69cc99af46a6c3d9f17d95d723bd9a719c55f",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logParse.js",
+        "relativePath": "tools/core/logParse.js",
+        "size": 271,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "dd1df6a15fb4567a3cb16424ece5630e249d4fca",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logParse.logic.js",
+        "relativePath": "tools/core/logParse.logic.js",
+        "size": 432,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 18,
+        "hash": "8a7a90a5bd7612cd5ac6f973f1fb8f8a6347e1c9",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logSummarize.io.js",
+        "relativePath": "tools/core/logSummarize.io.js",
+        "size": 894,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 34,
+        "hash": "017b726bed0b85202094ad9c83f646f653817283",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logSummarize.js",
+        "relativePath": "tools/core/logSummarize.js",
+        "size": 346,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "ac6d2bd9a74540c8ee1acf741984e4ceccb05ed5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/logSummarize.logic.js",
+        "relativePath": "tools/core/logSummarize.logic.js",
+        "size": 604,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 22,
+        "hash": "6a90756e66324873c9ea363e97f90631c9d2be2a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryIngest.io.js",
+        "relativePath": "tools/core/memoryIngest.io.js",
+        "size": 1095,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 36,
+        "hash": "899fbef7bba11d7534d437bbd778d3003acf0721",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryIngest.js",
+        "relativePath": "tools/core/memoryIngest.js",
+        "size": 289,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "f560c0cc72b23b947af6bd894e7f98a5fc2685d2",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryIngest.logic.js",
+        "relativePath": "tools/core/memoryIngest.logic.js",
+        "size": 286,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "ad71e34a55941814a3d5417ac995c72a67eb1e82",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryQuery.io.js",
+        "relativePath": "tools/core/memoryQuery.io.js",
+        "size": 900,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 33,
+        "hash": "7b5d4cf9af219d743e818c686cb2fa59ad21002e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryQuery.js",
+        "relativePath": "tools/core/memoryQuery.js",
+        "size": 281,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "df0e789e30609f50bcff74b003d42cf7d87d9dc4",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/memoryQuery.logic.js",
+        "relativePath": "tools/core/memoryQuery.logic.js",
+        "size": 258,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "75bd0362ccc2b31feaeea5378fd17781a55437ea",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/ping.io.js",
+        "relativePath": "tools/core/ping.io.js",
+        "size": 129,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "12d80c8b2571b1915bde6c017ffa60ea16df64cb",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/ping.js",
+        "relativePath": "tools/core/ping.js",
+        "size": 251,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "2798b73d39c494b69deb76c660ad99c9ab647d16",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/ping.logic.js",
+        "relativePath": "tools/core/ping.logic.js",
+        "size": 175,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "41bda6d121b5c88d96920d64ef73049be47d2ce9",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/projectStatus.io.js",
+        "relativePath": "tools/core/projectStatus.io.js",
+        "size": 1386,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 46,
+        "hash": "5db02591401c8e4a459a380a47bdde5b38945d8e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/projectStatus.js",
+        "relativePath": "tools/core/projectStatus.js",
+        "size": 277,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 10,
+        "hash": "80f779d5de0ef7a5c3fbd1cce9408a011f24b898",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/projectStatus.logic.js",
+        "relativePath": "tools/core/projectStatus.logic.js",
+        "size": 394,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 24,
+        "hash": "da18760f3668d640a94f6abbce9e632cd2014e29",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readFile.io.js",
+        "relativePath": "tools/core/readFile.io.js",
+        "size": 654,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 24,
+        "hash": "21f0bb5476db7a686e714d62cf745fa4a10ef9a0",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readFile.js",
+        "relativePath": "tools/core/readFile.js",
+        "size": 284,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "4e5595c4d69c23169fcf7a631539d3e5850fd717",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readFile.logic.js",
+        "relativePath": "tools/core/readFile.logic.js",
+        "size": 465,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 18,
+        "hash": "ba1937604b55cafa426c2049f041c352eaec8f8e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readProjectFile.io.js",
+        "relativePath": "tools/core/readProjectFile.io.js",
+        "size": 448,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 21,
+        "hash": "002bac8f4cdb6b8f9ffde5079758b69603f67f01",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readProjectFile.js",
+        "relativePath": "tools/core/readProjectFile.js",
+        "size": 344,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "cbe35dede2d1149a3d258d48c93502bdb3d5a282",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/readProjectFile.logic.js",
+        "relativePath": "tools/core/readProjectFile.logic.js",
+        "size": 772,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 33,
+        "hash": "b2c3c363ee166235f43fc73dd7637ebb6dfcab9a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/restoreSnapshotTool.io.js",
+        "relativePath": "tools/core/restoreSnapshotTool.io.js",
+        "size": 998,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 34,
+        "hash": "b1f39d7fac6329077adbc8b7c1498755b633e13b",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/restoreSnapshotTool.js",
+        "relativePath": "tools/core/restoreSnapshotTool.js",
+        "size": 285,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 7,
+        "hash": "4026ab1817cc341708ca3608fe5c15c164d36d5d",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/restoreSnapshotTool.logic.js",
+        "relativePath": "tools/core/restoreSnapshotTool.logic.js",
+        "size": 1538,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 63,
+        "hash": "a1d22bc30e10fe215841b62eb4e3bba3b3a22584",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/runCommand.io.js",
+        "relativePath": "tools/core/runCommand.io.js",
+        "size": 418,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 17,
+        "hash": "7d2ccdc217a579c550f7d42f57202c61385bb4d0",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/runCommand.js",
+        "relativePath": "tools/core/runCommand.js",
+        "size": 305,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "928c29028cb56c4800f8a6f8e0d86c60fd496a59",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/runCommand.logic.js",
+        "relativePath": "tools/core/runCommand.logic.js",
+        "size": 262,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "adfaec33111eee6f0abfffbe1ba0db76e81ae8fd",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/setLastContext.io.js",
+        "relativePath": "tools/core/setLastContext.io.js",
+        "size": 331,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 16,
+        "hash": "32678ee219cba41b4a84cb487bbc799c86ab9cf1",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/setLastContext.js",
+        "relativePath": "tools/core/setLastContext.js",
+        "size": 327,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "88c0e62e595910bec6a87b921e181d66831d7a8a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/setLastContext.logic.js",
+        "relativePath": "tools/core/setLastContext.logic.js",
+        "size": 600,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 26,
+        "hash": "46246dcfb71e1bc5519cc588be0a050d7f617928",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotServer.io.js",
+        "relativePath": "tools/core/snapshotServer.io.js",
+        "size": 985,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 31,
+        "hash": "5e5b729ecddb2c432d6ab6b4e9409cb12f489afa",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotServer.js",
+        "relativePath": "tools/core/snapshotServer.js",
+        "size": 387,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "b505b641f880df9ad76e59d5a1f0260c390776cc",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotServer.logic.js",
+        "relativePath": "tools/core/snapshotServer.logic.js",
+        "size": 157,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 8,
+        "hash": "ae9139ca452e62a7eef9a3ebd1b62a80ec7e7863",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotTool.io.js",
+        "relativePath": "tools/core/snapshotTool.io.js",
+        "size": 1452,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 53,
+        "hash": "108ad68fe747fd55a17939f7ea4dbebad14c4de3",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotTool.js",
+        "relativePath": "tools/core/snapshotTool.js",
+        "size": 327,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "9f3c5cdfe1fd36edca7436b15161eb23a2cd8499",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/snapshotTool.logic.js",
+        "relativePath": "tools/core/snapshotTool.logic.js",
+        "size": 2125,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 79,
+        "hash": "e0c06d36230504b669e7638e054dc99a505ffc7f",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/writeFile.io.js",
+        "relativePath": "tools/core/writeFile.io.js",
+        "size": 254,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 12,
+        "hash": "e05f419e680bbfb81413220317f42879d381e1d7",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/writeFile.js",
+        "relativePath": "tools/core/writeFile.js",
+        "size": 301,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "e53228c0afda66acde82416806496f1da45de807",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/core/writeFile.logic.js",
+        "relativePath": "tools/core/writeFile.logic.js",
+        "size": 573,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 22,
+        "hash": "9ffe16005c9c2acccf1c4c70ed6e8aa0f70f2fdd",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/listDir.io.js",
+        "relativePath": "tools/etno/listDir.io.js",
+        "size": 1686,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 60,
+        "hash": "3044dc385ee117d0c7f3c5e2d0c08553a3e39b0c",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/listDir.js",
+        "relativePath": "tools/etno/listDir.js",
+        "size": 269,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "c9ee20128153b9f21cb547d0151692b00c314982",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/listDir.logic.js",
+        "relativePath": "tools/etno/listDir.logic.js",
+        "size": 1310,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 48,
+        "hash": "35dd6ec2f331d59abb1811cd1878dc713be367ff",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/parseMaterial.io.js",
+        "relativePath": "tools/etno/parseMaterial.io.js",
+        "size": 851,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 39,
+        "hash": "9597f4e42de8c254163c05343f284ef9fe4fd832",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/parseMaterial.js",
+        "relativePath": "tools/etno/parseMaterial.js",
+        "size": 331,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "69b1ad5c4f2b753a450945a48ad17e8f8433982b",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/parseMaterial.logic.js",
+        "relativePath": "tools/etno/parseMaterial.logic.js",
+        "size": 2038,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 75,
+        "hash": "328f4688ffe939610462d7f62148bbb266014fa6",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/readFile.io.js",
+        "relativePath": "tools/etno/readFile.io.js",
+        "size": 864,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 33,
+        "hash": "8ffdf8d95dce6ed92215cc6751144728734c6537",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/readFile.js",
+        "relativePath": "tools/etno/readFile.js",
+        "size": 319,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "8ff27e1ec0d3c0880ba120b39f24dbc0e5b0903a",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/readFile.logic.js",
+        "relativePath": "tools/etno/readFile.logic.js",
+        "size": 802,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 34,
+        "hash": "a7cc121abb784e364a0a8f1bf1765f4a78f6d55c",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/summarizeFile.io.js",
+        "relativePath": "tools/etno/summarizeFile.io.js",
+        "size": 995,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 39,
+        "hash": "894674095957308e4d2920c0649eb71a051fdee9",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/summarizeFile.js",
+        "relativePath": "tools/etno/summarizeFile.js",
+        "size": 327,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "6c233da1122c360767f907c8a8581525ee80e1ae",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/etno/summarizeFile.logic.js",
+        "relativePath": "tools/etno/summarizeFile.logic.js",
+        "size": 1291,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 53,
+        "hash": "4cb55990d71bea2556965dc0e1bc0c5bf699dcd0",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/factura/readFile.io.js",
+        "relativePath": "tools/factura/readFile.io.js",
+        "size": 871,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 33,
+        "hash": "600fa25341c1bf31d12726f3fbeaeb9513f4752e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/factura/readFile.js",
+        "relativePath": "tools/factura/readFile.js",
+        "size": 334,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "a605a14db923be9a9b5d9dbbd441ccc91c5d51d3",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/tools/factura/readFile.logic.js",
+        "relativePath": "tools/factura/readFile.logic.js",
+        "size": 809,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 34,
+        "hash": "bcfc8445db0337e774bddddfa13ca8fd17aaf6aa",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/diagnostics/logs/ai/2025-11-14T19:57:55.358Z.log",
+        "relativePath": "diagnostics/logs/ai/2025-11-14T19:57:55.358Z.log",
+        "size": 161,
+        "extension": "log",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 4,
+        "hash": "bb8021e11861ea519dbd04f79309433591338ee5",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/src/utils/fs/listDir.js",
+        "relativePath": "src/utils/fs/listDir.js",
+        "size": 783,
+        "extension": "js",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 24,
+        "hash": "b479f45c33f0c2b3dab7bf9b03b2b813ab1eab41",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_transactions/0-c0058643-31bf-4471-9cca-f4d5d627b13c.txn",
+        "relativePath": "data/lance/memory.lance/_transactions/0-c0058643-31bf-4471-9cca-f4d5d627b13c.txn",
+        "size": 478,
+        "extension": "txn",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 5,
+        "hash": "d6e60de1c8f7c6a811038879242edbb7be4512c8",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_transactions/1-c8df1bae-3f84-427d-b9e8-d98f2c840195.txn",
+        "relativePath": "data/lance/memory.lance/_transactions/1-c8df1bae-3f84-427d-b9e8-d98f2c840195.txn",
+        "size": 64,
+        "extension": "txn",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 1,
+        "hash": "f66e95ac0d8886cd7577beff17efb53a2ef0781e",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_transactions/2-d89dfefb-2401-47d6-99b9-2da017595cdf.txn",
+        "relativePath": "data/lance/memory.lance/_transactions/2-d89dfefb-2401-47d6-99b9-2da017595cdf.txn",
+        "size": 124,
+        "extension": "txn",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 3,
+        "hash": "59633d72d3cc2ac255e8a34d83d1ab610a3cbfe4",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_transactions/3-5a57eda7-94f7-486d-878a-231291fdb317.txn",
+        "relativePath": "data/lance/memory.lance/_transactions/3-5a57eda7-94f7-486d-878a-231291fdb317.txn",
+        "size": 124,
+        "extension": "txn",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 3,
+        "hash": "19db4f1b8e2d3366ba06f04c92a3b1eec56cd7bf",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_versions/1.manifest",
+        "relativePath": "data/lance/memory.lance/_versions/1.manifest",
+        "size": 552,
+        "extension": "manifest",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_versions/2.manifest",
+        "relativePath": "data/lance/memory.lance/_versions/2.manifest",
+        "size": 467,
+        "extension": "manifest",
+        "type": "text",
+        "isBinary": false,
+        "lineCount": 11,
+        "hash": "e98db93ebec2b8c4987f1280c0ad0805d3edbfe7",
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_versions/3.manifest",
+        "relativePath": "data/lance/memory.lance/_versions/3.manifest",
+        "size": 550,
+        "extension": "manifest",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/_versions/4.manifest",
+        "relativePath": "data/lance/memory.lance/_versions/4.manifest",
+        "size": 634,
+        "extension": "manifest",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/data/0011111100011110010000113dcbba40f7a3a30e1ddd882bb1.lance",
+        "relativePath": "data/lance/memory.lance/data/0011111100011110010000113dcbba40f7a3a30e1ddd882bb1.lance",
+        "size": 13911,
+        "extension": "lance",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/data/01010111000111100000000139694641b3b9387373b388a12f.lance",
+        "relativePath": "data/lance/memory.lance/data/01010111000111100000000139694641b3b9387373b388a12f.lance",
+        "size": 13413,
+        "extension": "lance",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      },
+      {
+        "path": "/Users/Ryttis/mcp-server/data/lance/memory.lance/data/101101100000111000110011b633ef4891bbed7a504586d7c0.lance",
+        "relativePath": "data/lance/memory.lance/data/101101100000111000110011b633ef4891bbed7a504586d7c0.lance",
+        "size": 13349,
+        "extension": "lance",
+        "type": "binary",
+        "isBinary": true,
+        "lineCount": null,
+        "hash": null,
+        "skipped": false
+      }
+    ]
+  },
+  "structure": {
+    "files": {
+      ".gitignore": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "package.json": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "server.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "config/limits.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "docs/README.md": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "docs/architecture.json": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "docs/rules.json": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "docs/tools.md": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "errors/ToolError.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "headers/backup-strategy-header.md": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/blueprint_header_2026_01_06.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/header-status-2026-01-24.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/header_2025_12_22.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/header_2025_12_27.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/header_2026_01_06.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/improve_steps_2026_01_05.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/latest_mcp-server.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/latest_phr-website.md": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/refactoring_mode.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/scan-project_2026-01-08.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/scan-project_2026-01-24.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/split_blueprint_v1.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "headers/status_2026_01_06.json": {
+        "role": "generated",
+        "isEntryPoint": false
+      },
+      "machine_state/m_state_2025_11_28_01.json": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/rpc_parser_test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/index.js": {
+        "role": "other",
+        "isEntryPoint": true
+      },
+      ".github/workflows/deploy.yml": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/config.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/loader.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/logger.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/memoryAdapter.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/protocol.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/protocolValidator.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/rpc.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/snapshot.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/state.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/server/workspace.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/integration/kernel_immutability.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/tools/analyzeFile.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/tools/getTime.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/tools/ping.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/tools/readFile.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tests/tools/writeFile.test.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeGcode.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeGcode.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/analyzeGcode.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/cache.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/cache.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/cache.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/checkBilling.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/checkBilling.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/checkBilling.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/dbQuery.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/dbQuery.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/dbQuery.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/debugState.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/debugState.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/debugState.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getLastScan.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getLastScan.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getLastScan.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getTime.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getTime.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/getTime.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/listDir.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/listDir.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/listDir.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logParse.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logParse.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logParse.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logSummarize.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logSummarize.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/logSummarize.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryIngest.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryIngest.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryIngest.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryQuery.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryQuery.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/memoryQuery.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/ping.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/ping.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/ping.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/projectStatus.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/projectStatus.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/projectStatus.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readProjectFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readProjectFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/readProjectFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/restoreSnapshotTool.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/restoreSnapshotTool.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/restoreSnapshotTool.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/runCommand.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/runCommand.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/runCommand.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/setLastContext.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/setLastContext.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/setLastContext.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotServer.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotServer.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotServer.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotTool.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotTool.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/snapshotTool.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/writeFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/writeFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/core/writeFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/listDir.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/listDir.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/listDir.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/parseMaterial.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/parseMaterial.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/parseMaterial.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/readFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/readFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/readFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/summarizeFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/summarizeFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/etno/summarizeFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/factura/readFile.io.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/factura/readFile.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "tools/factura/readFile.logic.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "diagnostics/logs/ai/2025-11-14T19:57:55.358Z.log": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "src/utils/fs/listDir.js": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_transactions/0-c0058643-31bf-4471-9cca-f4d5d627b13c.txn": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_transactions/1-c8df1bae-3f84-427d-b9e8-d98f2c840195.txn": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_transactions/2-d89dfefb-2401-47d6-99b9-2da017595cdf.txn": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_transactions/3-5a57eda7-94f7-486d-878a-231291fdb317.txn": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_versions/1.manifest": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_versions/2.manifest": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_versions/3.manifest": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/_versions/4.manifest": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/data/0011111100011110010000113dcbba40f7a3a30e1ddd882bb1.lance": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/data/01010111000111100000000139694641b3b9387373b388a12f.lance": {
+        "role": "other",
+        "isEntryPoint": false
+      },
+      "data/lance/memory.lance/data/101101100000111000110011b633ef4891bbed7a504586d7c0.lance": {
+        "role": "other",
+        "isEntryPoint": false
+      }
+    },
+    "modules": {
+      "server/config.js": {
+        "fileCount": 1,
+        "lineCount": 8
+      },
+      "server/loader.js": {
+        "fileCount": 1,
+        "lineCount": 24
+      },
+      "server/logger.js": {
+        "fileCount": 1,
+        "lineCount": 19
+      },
+      "server/memoryAdapter.js": {
+        "fileCount": 1,
+        "lineCount": 29
+      },
+      "server/protocol.js": {
+        "fileCount": 1,
+        "lineCount": 14
+      },
+      "server/protocolValidator.js": {
+        "fileCount": 1,
+        "lineCount": 84
+      },
+      "server/rpc.js": {
+        "fileCount": 1,
+        "lineCount": 191
+      },
+      "server/snapshot.js": {
+        "fileCount": 1,
+        "lineCount": 50
+      },
+      "server/state.js": {
+        "fileCount": 1,
+        "lineCount": 15
+      },
+      "server/workspace.js": {
+        "fileCount": 1,
+        "lineCount": 10
+      },
+      "utils/fs": {
+        "fileCount": 1,
+        "lineCount": 24
+      }
+    }
+  },
+  "semantic": {
+    "files": {
+      ".gitignore": {
+        "semantic": []
+      },
+      "package.json": {
+        "semantic": []
+      },
+      "server.js": {
+        "semantic": []
+      },
+      "config/limits.js": {
+        "semantic": []
+      },
+      "docs/README.md": {
+        "semantic": []
+      },
+      "docs/architecture.json": {
+        "semantic": []
+      },
+      "docs/rules.json": {
+        "semantic": []
+      },
+      "docs/tools.md": {
+        "semantic": []
+      },
+      "errors/ToolError.js": {
+        "semantic": []
+      },
+      "headers/backup-strategy-header.md": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/blueprint_header_2026_01_06.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/header-status-2026-01-24.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/header_2025_12_22.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/header_2025_12_27.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/header_2026_01_06.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/improve_steps_2026_01_05.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/latest_mcp-server.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/latest_phr-website.md": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/refactoring_mode.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/scan-project_2026-01-08.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/scan-project_2026-01-24.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/split_blueprint_v1.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "headers/status_2026_01_06.json": {
+        "semantic": [
+          "generated"
+        ]
+      },
+      "machine_state/m_state_2025_11_28_01.json": {
+        "semantic": []
+      },
+      "tests/rpc_parser_test.js": {
+        "semantic": []
+      },
+      "tools/index.js": {
+        "semantic": [
+          "entrypoint"
+        ]
+      },
+      ".github/workflows/deploy.yml": {
+        "semantic": []
+      },
+      "src/server/config.js": {
+        "semantic": []
+      },
+      "src/server/loader.js": {
+        "semantic": []
+      },
+      "src/server/logger.js": {
+        "semantic": []
+      },
+      "src/server/memoryAdapter.js": {
+        "semantic": []
+      },
+      "src/server/protocol.js": {
+        "semantic": []
+      },
+      "src/server/protocolValidator.js": {
+        "semantic": []
+      },
+      "src/server/rpc.js": {
+        "semantic": []
+      },
+      "src/server/snapshot.js": {
+        "semantic": []
+      },
+      "src/server/state.js": {
+        "semantic": []
+      },
+      "src/server/workspace.js": {
+        "semantic": []
+      },
+      "tests/integration/kernel_immutability.test.js": {
+        "semantic": []
+      },
+      "tests/tools/analyzeFile.test.js": {
+        "semantic": []
+      },
+      "tests/tools/getTime.test.js": {
+        "semantic": []
+      },
+      "tests/tools/ping.test.js": {
+        "semantic": []
+      },
+      "tests/tools/readFile.test.js": {
+        "semantic": []
+      },
+      "tests/tools/writeFile.test.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeFile.io.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeFile.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeFile.logic.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeGcode.io.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeGcode.js": {
+        "semantic": []
+      },
+      "tools/core/analyzeGcode.logic.js": {
+        "semantic": []
+      },
+      "tools/core/cache.io.js": {
+        "semantic": []
+      },
+      "tools/core/cache.js": {
+        "semantic": []
+      },
+      "tools/core/cache.logic.js": {
+        "semantic": []
+      },
+      "tools/core/checkBilling.io.js": {
+        "semantic": []
+      },
+      "tools/core/checkBilling.js": {
+        "semantic": []
+      },
+      "tools/core/checkBilling.logic.js": {
+        "semantic": []
+      },
+      "tools/core/dbQuery.io.js": {
+        "semantic": []
+      },
+      "tools/core/dbQuery.js": {
+        "semantic": []
+      },
+      "tools/core/dbQuery.logic.js": {
+        "semantic": []
+      },
+      "tools/core/debugState.io.js": {
+        "semantic": []
+      },
+      "tools/core/debugState.js": {
+        "semantic": []
+      },
+      "tools/core/debugState.logic.js": {
+        "semantic": []
+      },
+      "tools/core/getLastScan.io.js": {
+        "semantic": []
+      },
+      "tools/core/getLastScan.js": {
+        "semantic": []
+      },
+      "tools/core/getLastScan.logic.js": {
+        "semantic": []
+      },
+      "tools/core/getTime.io.js": {
+        "semantic": []
+      },
+      "tools/core/getTime.js": {
+        "semantic": []
+      },
+      "tools/core/getTime.logic.js": {
+        "semantic": []
+      },
+      "tools/core/listDir.io.js": {
+        "semantic": []
+      },
+      "tools/core/listDir.js": {
+        "semantic": []
+      },
+      "tools/core/listDir.logic.js": {
+        "semantic": []
+      },
+      "tools/core/logParse.io.js": {
+        "semantic": []
+      },
+      "tools/core/logParse.js": {
+        "semantic": []
+      },
+      "tools/core/logParse.logic.js": {
+        "semantic": []
+      },
+      "tools/core/logSummarize.io.js": {
+        "semantic": []
+      },
+      "tools/core/logSummarize.js": {
+        "semantic": []
+      },
+      "tools/core/logSummarize.logic.js": {
+        "semantic": []
+      },
+      "tools/core/memoryIngest.io.js": {
+        "semantic": []
+      },
+      "tools/core/memoryIngest.js": {
+        "semantic": []
+      },
+      "tools/core/memoryIngest.logic.js": {
+        "semantic": []
+      },
+      "tools/core/memoryQuery.io.js": {
+        "semantic": []
+      },
+      "tools/core/memoryQuery.js": {
+        "semantic": []
+      },
+      "tools/core/memoryQuery.logic.js": {
+        "semantic": []
+      },
+      "tools/core/ping.io.js": {
+        "semantic": []
+      },
+      "tools/core/ping.js": {
+        "semantic": []
+      },
+      "tools/core/ping.logic.js": {
+        "semantic": []
+      },
+      "tools/core/projectStatus.io.js": {
+        "semantic": []
+      },
+      "tools/core/projectStatus.js": {
+        "semantic": []
+      },
+      "tools/core/projectStatus.logic.js": {
+        "semantic": []
+      },
+      "tools/core/readFile.io.js": {
+        "semantic": []
+      },
+      "tools/core/readFile.js": {
+        "semantic": []
+      },
+      "tools/core/readFile.logic.js": {
+        "semantic": []
+      },
+      "tools/core/readProjectFile.io.js": {
+        "semantic": []
+      },
+      "tools/core/readProjectFile.js": {
+        "semantic": []
+      },
+      "tools/core/readProjectFile.logic.js": {
+        "semantic": []
+      },
+      "tools/core/restoreSnapshotTool.io.js": {
+        "semantic": []
+      },
+      "tools/core/restoreSnapshotTool.js": {
+        "semantic": []
+      },
+      "tools/core/restoreSnapshotTool.logic.js": {
+        "semantic": []
+      },
+      "tools/core/runCommand.io.js": {
+        "semantic": []
+      },
+      "tools/core/runCommand.js": {
+        "semantic": []
+      },
+      "tools/core/runCommand.logic.js": {
+        "semantic": []
+      },
+      "tools/core/setLastContext.io.js": {
+        "semantic": []
+      },
+      "tools/core/setLastContext.js": {
+        "semantic": []
+      },
+      "tools/core/setLastContext.logic.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotServer.io.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotServer.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotServer.logic.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotTool.io.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotTool.js": {
+        "semantic": []
+      },
+      "tools/core/snapshotTool.logic.js": {
+        "semantic": []
+      },
+      "tools/core/writeFile.io.js": {
+        "semantic": []
+      },
+      "tools/core/writeFile.js": {
+        "semantic": []
+      },
+      "tools/core/writeFile.logic.js": {
+        "semantic": []
+      },
+      "tools/etno/listDir.io.js": {
+        "semantic": []
+      },
+      "tools/etno/listDir.js": {
+        "semantic": []
+      },
+      "tools/etno/listDir.logic.js": {
+        "semantic": []
+      },
+      "tools/etno/parseMaterial.io.js": {
+        "semantic": []
+      },
+      "tools/etno/parseMaterial.js": {
+        "semantic": []
+      },
+      "tools/etno/parseMaterial.logic.js": {
+        "semantic": []
+      },
+      "tools/etno/readFile.io.js": {
+        "semantic": []
+      },
+      "tools/etno/readFile.js": {
+        "semantic": []
+      },
+      "tools/etno/readFile.logic.js": {
+        "semantic": []
+      },
+      "tools/etno/summarizeFile.io.js": {
+        "semantic": []
+      },
+      "tools/etno/summarizeFile.js": {
+        "semantic": []
+      },
+      "tools/etno/summarizeFile.logic.js": {
+        "semantic": []
+      },
+      "tools/factura/readFile.io.js": {
+        "semantic": []
+      },
+      "tools/factura/readFile.js": {
+        "semantic": []
+      },
+      "tools/factura/readFile.logic.js": {
+        "semantic": []
+      },
+      "diagnostics/logs/ai/2025-11-14T19:57:55.358Z.log": {
+        "semantic": []
+      },
+      "src/utils/fs/listDir.js": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_transactions/0-c0058643-31bf-4471-9cca-f4d5d627b13c.txn": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_transactions/1-c8df1bae-3f84-427d-b9e8-d98f2c840195.txn": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_transactions/2-d89dfefb-2401-47d6-99b9-2da017595cdf.txn": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_transactions/3-5a57eda7-94f7-486d-878a-231291fdb317.txn": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_versions/1.manifest": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_versions/2.manifest": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_versions/3.manifest": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/_versions/4.manifest": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/data/0011111100011110010000113dcbba40f7a3a30e1ddd882bb1.lance": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/data/01010111000111100000000139694641b3b9387373b388a12f.lance": {
+        "semantic": []
+      },
+      "data/lance/memory.lance/data/101101100000111000110011b633ef4891bbed7a504586d7c0.lance": {
+        "semantic": []
+      }
+    },
+    "folders": {
+      "src/agent/engine": {
+        "meaning": "execution-core"
+      },
+      "src/agent/steps": {
+        "meaning": "capabilities"
+      },
+      "src/agent/recipes": {
+        "meaning": "dsl-runtime"
+      },
+      "src/bridge": {
+        "meaning": "integration"
+      },
+      "blueprint": {
+        "meaning": "design-space"
+      },
+      "headers": {
+        "meaning": "output"
+      }
+    },
+    "project": {
+      "type": "local-agent-runtime",
+      "characteristics": [
+        "dsl-driven",
+        "pipeline-executor",
+        "local-first"
+      ]
+    }
+  },
+  "behavior": {
+    "files": {
+      "src/server/snapshot.js": {
+        "effects": [
+          "fs.write"
+        ]
+      },
+      "tests/tools/writeFile.test.js": {
+        "effects": [
+          "fs.read"
+        ]
+      },
+      "tools/core/checkBilling.io.js": {
+        "effects": [
+          "network.call"
+        ]
+      },
+      "tools/core/projectStatus.io.js": {
+        "effects": [
+          "fs.read"
+        ]
+      },
+      "tools/core/readFile.io.js": {
+        "effects": [
+          "fs.read"
+        ]
+      },
+      "tools/core/restoreSnapshotTool.io.js": {
+        "effects": [
+          "fs.read"
+        ]
+      },
+      "tools/core/snapshotServer.io.js": {
+        "effects": [
+          "fs.write"
+        ]
+      },
+      "tools/core/snapshotTool.io.js": {
+        "effects": [
+          "fs.read",
+          "fs.write"
+        ]
+      },
+      "tools/etno/readFile.io.js": {
+        "effects": [
+          "fs.read"
+        ]
+      },
+      "tools/factura/readFile.io.js": {
+        "effects": [
+          "fs.read"
+        ]
+      }
+    },
+    "summary": {
+      "fsRead": 7,
+      "fsWrite": 3,
+      "stateMutate": 0,
+      "networkCall": 1,
+      "pure": 124
+    }
+  },
+  "intent": {
+    "project": {
+      "primaryIntent": "local agent execution framework",
+      "secondaryIntents": [
+        "project inspection",
+        "deterministic analysis",
+        "kernel-assisted orchestration"
+      ],
+      "nonGoals": [
+        "web application",
+        "long-running daemon"
+      ]
+    },
+    "folders": {
+      "src/agent": "runtime execution core",
+      "src/bridge": "integration and orchestration",
+      "src/agent/recipes": "execution DSL",
+      "blueprint": "design and planning space",
+      "headers": "generated project snapshots"
+    }
+  }
+}
