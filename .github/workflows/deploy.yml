@@ -40,7 +40,6 @@ jobs:
 
             npm install --omit=dev
 
-            pm2 delete mcp-server || true
             pm2 restart mcp-server || pm2 start server.js --name mcp-server
             pm2 save
 
