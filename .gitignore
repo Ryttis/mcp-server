@@ -96,3 +96,4 @@ sandbox/
 # ---------------------------------------
 package-lock.json
 npm-shrinkwrap.json
+data/voice-calls/*.json

@@ -5,6 +5,12 @@
 
 import { ToolError } from "../../errors/ToolError.js";
 import { LIMITS } from "../../config/limits.js";
+import {
+    getToolInputSchema,
+    validateToolInput,
+    getToolOutputSchema,
+    validateToolOutput
+} from "mcp-protocol";
 
 /**
  * Tries to parse as many complete JSON objects as possible from the input buffer.
@@ -77,6 +83,58 @@ function tryParseMessages(input) {
     };
 }
 
+export function validateRpcToolInput(method, params = {}) {
+    const schema = getToolInputSchema(method);
+    if (!schema) return;
+
+    const validation = validateToolInput(method, params);
+    if (!validation?.ok) {
+        throw new ToolError(
+            "INVALID_PARAMS",
+            `Invalid params for ${method}`,
+            { errors: validation?.errors || [] }
+        );
+    }
+}
+
+export function warnOnInvalidRpcToolOutput(method, result) {
+    const schema = getToolOutputSchema(method);
+    if (!schema) return;
+
+    const validation = validateToolOutput(method, result);
+    if (!validation?.ok) {
+        console.warn("RPC output validation warning:", {
+            method,
+            errors: validation?.errors || []
+        });
+    }
+}
+
+async function runToolWithTimeout(tool, params) {
+    let timeoutId;
+
+    const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+            reject(
+                new ToolError(
+                    "TIMEOUT",
+                    `Tool execution exceeded ${LIMITS.TOOL_TIMEOUT_MS} ms`,
+                    { timeout: LIMITS.TOOL_TIMEOUT_MS }
+                )
+            );
+        }, LIMITS.TOOL_TIMEOUT_MS);
+    });
+
+    try {
+        return await Promise.race([
+            tool(params),
+            timeoutPromise
+        ]);
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
 export async function handleRpc(ws, req, AUTH_TOKEN, appendContextLog) {
     // Initialize connection buffer
     ws.internalBuffer = "";
@@ -147,20 +205,11 @@ async function processRpcMessage(ws, req, AUTH_TOKEN, appendContextLog, data) {
             return;
         }
 
-        const result = await Promise.race([
-            tool(params),
-            new Promise((_, reject) =>
-                setTimeout(() => {
-                    reject(
-                        new ToolError(
-                            "TIMEOUT",
-                            `Tool execution exceeded ${LIMITS.TOOL_TIMEOUT_MS} ms`,
-                            { timeout: LIMITS.TOOL_TIMEOUT_MS }
-                        )
-                    );
-                }, LIMITS.TOOL_TIMEOUT_MS)
-            )
-        ]);
+        validateRpcToolInput(method, params || {});
+
+        const result = await runToolWithTimeout(tool, params);
+
+        warnOnInvalidRpcToolOutput(method, result);
 
         if (appendContextLog)
             appendContextLog(`[${new Date().toISOString()}] ${method}`);

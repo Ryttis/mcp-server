@@ -7,21 +7,30 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "test": "node --test tests/**/*.test.js",
-    "test:integration": "node --test tests/integration/*.test.js"
+    "test": "node --test tests/*.test.js tests/**/*.test.js",
+    "test:integration": "node --test tests/integration/*.test.js",
+    "mcp:stdio": "node src/mcp/stdio-server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@ryttis/logpilot": "^1.0.0",
     "csv-parse": "^6.1.0",
     "dotenv": "^17.2.3",
+    "mcp-memory": "file:../mcp-memory",
+    "mcp-protocol": "file:../mcp-protocol",
     "mysql2": "^3.15.3",
     "node-fetch": "^3.3.2",
     "openai": "^6.8.1",
+    "twilio": "^6.0.2",
     "uuid": "^13.0.0",
     "ws": "^8.18.3",
-    "yaml": "^2.8.1"
+    "yaml": "^2.8.1",
+    "zod": "^4.3.6"
+  },
+  "bin": {
+    "ryttis-mcp-server": "src/mcp/stdio-server.js"
   }
 }

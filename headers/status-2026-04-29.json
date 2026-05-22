@@ -1,0 +1,471 @@
+{
+  "project": "mcp-server",
+  "timestamp": "2026-04-29",
+  "repo_path": "/Users/Ryttis/mcp-server",
+  "branch": "main",
+  "status": "ready-with-memory-ingest-bridge-fix-live-bridge-retest-pending",
+  "development_aim": "Kernel/tool server for mcp-bridge and MCP clients with protocol validation, memory integration, LLM tools, and stdio MCP adapter.",
+  "executive_summary": "mcp-server now has an additional MCP stdio entrypoint at src/mcp/stdio-server.js using @modelcontextprotocol/sdk and StdioServerTransport. The adapter exposes a deliberately small safe tool set: memory_ingest, memory_query, and llm_complete. core.memoryIngest was fixed to preserve an omitted id as undefined when calling mcp-memory.ingestText(text, { id, metadata }), allowing mcp-memory to generate its UUID and return { ok: true, id: string }. voice.outboundCall, voice.getCallStatus, and voice.getCallResult now support the existing mock provider plus a tightly gated Twilio provider for first own-phone testing. Twilio voice flow supports responseMode gather or record; record mode captures caller audio metadata for later STT without connecting Google/OpenAI transcription or supplier batch calls. Real Twilio calls still require approved true, VOICE_PROVIDER=twilio, VOICE_CALLS_ENABLED=true, configured Twilio env vars, PUBLIC_VOICE_BASE_URL, and a phoneNumber present in VOICE_ALLOWED_TEST_NUMBERS; supplier batch calls are not implemented. Existing WebSocket server imports still pass, tools/index.js still loads, npm test passes, and memoryIngest import validation passes. Live OpenAI calls, live Twilio calls, and live bridge retest were not run.",
+  "phase_status": {
+    "ready": true,
+    "summary": "Ready for MCP-compatible clients to configure the stdio server command directly. Live client smoke and live OpenAI/memory tool calls remain pending.",
+    "completed_targets": [
+      "Added @modelcontextprotocol/sdk dependency and zod dependency.",
+      "Added src/mcp/stdio-server.js as an MCP stdio entrypoint.",
+      "Added src/mcp/tools.js with safe MCP tool definitions and wrapper logic.",
+      "Exposed memory_ingest mapped to core.memoryIngest.",
+      "Exposed memory_query mapped to core.memoryQuery.",
+      "Exposed llm_complete mapped to core.llmComplete.",
+      "Excluded core.runCommand, core.writeFile, and core.dbQuery from the stdio adapter.",
+      "Excluded project_status because core.projectStatus currently executes the shell command tree.",
+      "Skipped scan_project because no safe existing non-mutating scan tool was identified.",
+      "Added package script mcp:stdio and bin ryttis-mcp-server.",
+      "Added Codex and Claude Code command examples to docs/tools.md.",
+      "Added tests/mcp_stdio.test.js for exposed tools, exclusions, and mock wrapper behavior.",
+      "Confirmed server.js imports successfully.",
+      "Confirmed tools/index.js imports successfully.",
+      "Confirmed src/mcp/stdio-server.js imports successfully.",
+      "Confirmed src/mcp/tools.js imports successfully.",
+      "Confirmed npm test passes with localhost socket permission.",
+      "Fixed core.llmComplete response_format compatibility for mcp-bridge string values.",
+      "Fixed core.memoryIngest omitted-id handling so mcp-memory can generate a string id.",
+      "Added mocked mcp-memory tests for the real ingest return shape { ok: true, id: \"test-id\" }.",
+      "Added RPC output validation coverage for core.memoryIngest { ok: true, id: \"test-id\" }.",
+      "Implemented voice.outboundCall with mock provider behavior preserved.",
+      "Implemented Twilio provider support behind voice.outboundCall with explicit safety gates.",
+      "Added Twilio responseMode record support for recording-based Lithuanian test calls; recording webhooks store RecordingSid, RecordingUrl, duration, CallSid, transcript placeholders, and transcription-pending answers.",
+      "Implemented voice.getCallStatus for saved mock and Twilio calls.",
+      "Implemented voice.getCallResult for saved mock and Twilio calls.",
+      "Confirmed supplier batch calls are intentionally not implemented."
+    ],
+    "incomplete_targets": [
+      "No live MCP client list-tools smoke was run.",
+      "No live OpenAI-backed llm_complete call was run.",
+      "No live mcp-memory ingest/query call was run.",
+      "project_status is not exposed until a non-shell implementation exists.",
+      "scan_project is not exposed until a safe existing scan/status tool exists."
+    ]
+  },
+  "completed_changes": [
+    "package.json now includes @modelcontextprotocol/sdk and zod dependencies.",
+    "package.json now includes mcp:stdio script and ryttis-mcp-server bin entry.",
+    "src/mcp/tools.js defines safe stdio tool mappings and excluded tool documentation.",
+    "src/mcp/stdio-server.js creates an McpServer named ryttis-mcp-server and connects StdioServerTransport.",
+    "docs/tools.md documents stdio adapter tools, exclusions, Codex config example, and Claude Code command example.",
+    "tests/mcp_stdio.test.js covers import safety, exposed tool names, exclusions, unknown tool rejection, dangerous tool rejection, mocked memory_ingest, mocked llm_complete, and registration shape.",
+    "package.json test script now includes top-level tests/*.test.js so tests/mcp_stdio.test.js runs.",
+    "tools/core/llmComplete.io.js now normalizes response_format values before sending OpenAI chat completion requests.",
+    "tests/tools/llmComplete.test.js now covers response_format string normalization, object pass-through, undefined omission, and import safety without OPENAI_API_KEY.",
+    "tools/core/memoryIngest.logic.js now defaults omitted id to undefined instead of null before calling mcp-memory.ingestText(text, { id, metadata }).",
+    "tools/core/memoryIngest.logic.js now returns exactly { ok: true, id: result.id } after validating mcp-memory returned ok true and a string id.",
+    "tests/tools/memoryTools.test.js now covers mocked mcp-memory returning { ok: true, id: \"test-id\" } when no id is supplied.",
+    "tests/integration/protocol_validation.test.js now covers RPC output validation for the real core.memoryIngest result shape.",
+    "tools/voice/outboundCall.js, tools/voice/getCallStatus.js, and tools/voice/getCallResult.js are registered in tools/index.js.",
+    "src/voice/mockProvider.js, src/voice/twilioProvider.js, src/voice/twiml.js, src/voice/twilioRoutes.js, src/voice/callStore.js, and src/voice/phoneValidation.js provide the voice foundation.",
+    "server.js now attaches the WebSocket server to a minimal HTTP server and serves Twilio TwiML, gather, recording-result, and status webhook routes.",
+    "tests/tools/voiceTools.test.js covers mock call creation, Twilio gating, mocked Twilio client creation, TwiML/gather/recording-result/status webhook behavior, status reads, result reads, and registry exposure.",
+    "docs/tools.md documents voice tools, responseMode gather/record behavior, environment gates, Twilio first-call setup, PUBLIC_VOICE_BASE_URL exposure, mock-first flow, real gather and record examples, result checks, TwiML URL checks, troubleshooting, and current limitations."
+  ],
+  "implemented_features": [
+    "MCP stdio server transport entrypoint.",
+    "Safe MCP tool surface with snake_case client names.",
+    "Reusable internal tool wrapper with unknown-tool, forbidden-tool, and timeout handling.",
+    "MCP SDK tool result formatting as text content blocks containing JSON.",
+    "Client configuration documentation for Codex and Claude Code.",
+    "Offline unit tests for stdio adapter behavior.",
+    "Mock outbound voice call storage under data/voice-calls.",
+    "Twilio outbound provider gated by VOICE_CALLS_ENABLED and VOICE_ALLOWED_TEST_NUMBERS.",
+    "Twilio webhook handling for TwiML, speech gather, caller recording metadata, and safe status event storage."
+  ],
+    "working_parts": [
+    "node -e \"import('./src/mcp/stdio-server.js').then(() => console.log('mcp stdio import ok'))\" printed mcp stdio import ok.",
+    "node -e \"import('./src/mcp/tools.js').then(m => console.log(Object.keys(m)))\" listed the stdio tool module exports.",
+    "node -e \"import('./server.js').then(() => console.log('server import ok'))\" printed server import ok.",
+    "node -e \"import('./tools/index.js').then(m => console.log(Object.keys(m)))\" listed TOOL_REGISTRY and TOOL_REGISTRY_MAP.",
+    "npm test passed after Twilio provider implementation.",
+    "Direct bounded startup check for node src/mcp/stdio-server.js completed with empty stdout and empty stderr when stdin closed.",
+    "npm run --silent mcp:stdio bounded startup check completed with empty stdout and empty stderr when stdin closed.",
+    "package.json, package-lock.json, and all headers/*.json parsed as valid JSON.",
+    "node -e \"import('./tools/core/llmComplete.js').then(() => console.log('llmComplete ok'))\" printed llmComplete ok.",
+    "node -e \"import('./tools/core/memoryIngest.js').then(() => console.log('memoryIngest ok'))\" printed memoryIngest ok.",
+    "node -e \"JSON.parse(require('fs').readFileSync('/Users/Ryttis/mcp-server/headers/status-2026-04-29.json','utf8')); console.log('status json ok')\" printed status json ok.",
+    "voice.outboundCall creates mock-call-* and twilio-call-* records and voice.getCallStatus/voice.getCallResult read them back."
+  ],
+  "mcp_stdio_adapter": {
+    "entrypoint": "src/mcp/stdio-server.js",
+    "sdk_dependency": "@modelcontextprotocol/sdk ^1.29.0",
+    "transport": "stdio",
+    "exposed_tools": [
+      "memory_ingest",
+      "memory_query",
+      "llm_complete"
+    ],
+    "excluded_tools": [
+      "project_status: excluded because core.projectStatus executes shell command tree",
+      "scan_project: excluded because no safe existing non-mutating scan tool was identified",
+      "run_command: excluded because it maps to core.runCommand",
+      "write_file: excluded because it maps to core.writeFile",
+      "db_query: excluded because it maps to core.dbQuery",
+      "snapshot_server/snapshot_tool: excluded because they write snapshots"
+    ],
+    "tool_mapping": {
+      "memory_ingest": "core.memoryIngest",
+      "memory_query": "core.memoryQuery",
+      "llm_complete": "core.llmComplete"
+    },
+    "client_config_examples": [
+      "Codex: [mcp_servers.ryttis] command = \"node\" args = [\"/Users/Ryttis/mcp-server/src/mcp/stdio-server.js\"] env = { OPENAI_API_KEY = \"REPLACE_ME\", MEMORY_DATA_DIR = \"/Users/Ryttis/mcp-memory/data/lance\" }",
+      "Claude Code command-based MCP server: node /Users/Ryttis/mcp-server/src/mcp/stdio-server.js"
+    ],
+    "known_limits": [
+      "Use node src/mcp/stdio-server.js directly for MCP clients; npm run emits npm lifecycle text unless run with --silent.",
+      "project_status is not exposed because current implementation shells out to tree.",
+      "scan_project is not exposed because no safe existing scan tool was identified.",
+      "Live MCP client handshake/list-tools smoke was not run."
+    ]
+  },
+  "protocol_integration": {
+    "mcp_protocol_dependency": "package.json declares mcp-protocol as file:../mcp-protocol; existing src/server/rpc.js imports validation helpers from mcp-protocol.",
+    "input_validation": "JSON-RPC input validation remains in src/server/rpc.js for protocol-covered tools. MCP stdio adapter uses zod schemas in src/mcp/tools.js for its exposed MCP inputs.",
+    "output_validation": "JSON-RPC output validation remains warning-mode in src/server/rpc.js. MCP stdio adapter returns JSON as MCP text content blocks and does not define structured output schemas.",
+    "covered_tools": [
+      "core.memoryIngest",
+      "core.memoryQuery",
+      "core.llmComplete"
+    ],
+    "uncovered_tools_behavior": "Tools not explicitly mapped in src/mcp/tools.js are not exposed over MCP stdio.",
+    "known_contract_mismatches": [
+      "MCP stdio tool names are snake_case aliases while internal registry names remain dot-style.",
+      "project_status is documented as a desired safe tool but not exposed because its existing IO executes a shell command."
+    ]
+  },
+  "memory_integration": {
+    "mcp_memory_dependency": "package.json declares mcp-memory as file:../mcp-memory.",
+    "core_memory_ingest": "tools/core/memoryIngest.js delegates to memoryIngestLogic and memoryIngestIO, which imports ingestText from mcp-memory. memoryIngestLogic calls ingestText(text, { id, metadata }); when id is omitted it passes undefined rather than null so mcp-memory generates a string id.",
+    "core_memory_query": "tools/core/memoryQuery.js delegates to memoryQueryLogic and memoryQueryIO, which imports queryMemory from mcp-memory.",
+    "mcp_stdio_memory_tools": "MCP stdio exposes memory_ingest and memory_query mapped to core.memoryIngest and core.memoryQuery.",
+    "data_path_or_env": "docs/tools.md example uses MEMORY_DATA_DIR = /Users/Ryttis/mcp-memory/data/lance as a placeholder. Storage behavior is owned by mcp-memory.",
+    "openai_key_requirement": "Server startup and stdio adapter import do not require OPENAI_API_KEY. Memory tool calls may require OpenAI credentials through mcp-memory embedding behavior.",
+    "known_risks": [
+      "Live memory ingest/query through mcp-bridge was not run in this pass; the user will restart mcp-server and rerun the bridge direct test.",
+      "MEMORY_DATA_DIR behavior was documented as an example but not validated in this pass."
+    ]
+  },
+  "llm_integration": {
+    "core_llm_complete": "tools/core/llmComplete.js delegates to llmCompleteLogic and llmCompleteIO; IO checks OPENAI_API_KEY at call time and returns { text }.",
+    "mcp_stdio_llm_tool": "MCP stdio exposes llm_complete mapped to core.llmComplete with prompt, optional systemPrompt, optional model, and optional response_format.",
+    "response_format_compatibility": "tools/core/llmComplete.io.js normalizes response_format: \"json\" and \"json_object\" to { \"type\": \"json_object\" }, passes object values through, and omits response_format when undefined before calling OpenAI chat completions.",
+    "model_default": "gpt-4o-mini in tools/core/llmComplete.logic.js.",
+    "timeout_ms": "120000 via LIMITS.TOOL_TIMEOUT_MS for the wrapper default.",
+    "openai_client_initialization": "OpenAI client construction remains call-time in tools/core/llmComplete.io.js; stdio server import does not require OPENAI_API_KEY.",
+    "known_risks": [
+      "Live llm_complete was not run.",
+      "MCP stdio wrapper returns JSON in text content rather than structuredContent."
+    ]
+  },
+  "voice_integration": {
+    "provider": "mock or twilio",
+    "tools": [
+      "voice.outboundCall",
+      "voice.getCallStatus",
+      "voice.getCallResult"
+    ],
+    "storage": "data/voice-calls/<callId>.json",
+    "response_modes": {
+      "gather": "Default mode. Twilio Gather performs direct speech recognition and stores SpeechResult/Confidence when Twilio returns them.",
+      "record": "Preferred Lithuanian test mode right now. Twilio says the intro and first question, records caller audio, uses both Record action and recordingStatusCallback to the recording-result route, stores RecordingSid/RecordingUrl/duration/CallSid, and leaves transcriptionPending true until a later STT integration."
+    },
+    "environment_gates": {
+      "VOICE_PROVIDER": "Defaults to mock; twilio is supported only behind additional gates.",
+      "VOICE_CALLS_ENABLED": "Defaults to false; Twilio calls reject with CALLS_DISABLED unless this is exactly true.",
+      "VOICE_ALLOWED_TEST_NUMBERS": "Comma-separated E.164 allowlist; Twilio calls reject unless phoneNumber is included.",
+      "TWILIO_ACCOUNT_SID": "Required for provider=twilio; never returned in tool output or status JSON.",
+      "TWILIO_AUTH_TOKEN": "Required for provider=twilio; never returned in tool output or status JSON.",
+      "TWILIO_FROM_NUMBER": "Required for provider=twilio.",
+      "PUBLIC_VOICE_BASE_URL": "Required for provider=twilio and used for TwiML and webhook callback URLs. Must be the public HTTPS ngrok/tunnel URL, not localhost."
+    },
+    "webhook_routes": [
+      "GET|POST /voice/twilio/twiml?callId=<callId>",
+      "POST /voice/twilio/gather?callId=<callId>",
+      "POST /voice/twilio/recording-result?callId=<callId>",
+      "POST /voice/twilio/status?callId=<callId>"
+    ],
+    "safety": [
+      "Twilio provider implemented behind voice.outboundCall.",
+      "Real calls remain disabled unless approved true, VOICE_PROVIDER=twilio, VOICE_CALLS_ENABLED=true, and phoneNumber is allowlisted.",
+      "Provider credentials are not returned, logged, or stored in call records.",
+      "Twilio REST API is called only after local record creation and all gates pass.",
+      "No shell commands are run.",
+      "Supplier batch calls are not implemented; one phoneNumber is accepted per request.",
+      "approved must be true, language must be lt-LT, and phoneNumber must be E.164."
+    ],
+    "limitations": [
+      "Lithuanian Twilio Say may still sound accented.",
+      "Recording capture works, but transcription is not implemented yet.",
+      "voice.getCallResult may show recording metadata with transcriptionPending true.",
+      "Supplier batch calls remain intentionally disconnected."
+    ],
+    "pending": [
+      "Bridge, supplier-call agent, and UI integration wiring."
+    ]
+  },
+  "api_surface": {
+    "json_rpc_tool_count": 31,
+    "json_rpc_tool_names": [
+      "core.ping",
+      "core.getTime",
+      "core.debugState",
+      "core.projectStatus",
+      "core.snapshotServer",
+      "core.snapshotTool",
+      "core.getLastScan",
+      "core.setLastContext",
+      "core.cache",
+      "core.listDir",
+      "core.readFile",
+      "core.readProjectFile",
+      "core.writeFile",
+      "core.runCommand",
+      "core.dbQuery",
+      "core.checkBilling",
+      "core.logParse",
+      "core.logSummarize",
+      "core.analyzeGcode",
+      "core.analyzeFile",
+      "core.memoryIngest",
+      "core.memoryQuery",
+      "core.llmComplete",
+      "etno.listDir",
+      "etno.readFile",
+      "etno.summarizeFile",
+      "etno.parseMaterial",
+      "factura.readFile",
+      "voice.outboundCall",
+      "voice.getCallStatus",
+      "voice.getCallResult"
+    ],
+    "mcp_stdio_tool_count": 3,
+    "mcp_stdio_tool_names": [
+      "memory_ingest",
+      "memory_query",
+      "llm_complete"
+    ]
+  },
+  "configuration_state": {
+    "env_vars": [
+      "AUTH_TOKEN",
+      "OPENAI_API_KEY",
+      "MEMORY_DATA_DIR",
+      "VOICE_PROVIDER",
+      "VOICE_CALLS_ENABLED",
+      "VOICE_ALLOWED_TEST_NUMBERS",
+      "ETNOLENTOS_PATH",
+      "FACTURACORE_PATH",
+      "RUN_MCP_STDIO_SMOKE"
+    ],
+    "config_files": [
+      "package.json",
+      "package-lock.json",
+      "docs/tools.md",
+      "config/limits.js"
+    ],
+    "npm_scripts": [
+      "dev",
+      "start",
+      "test",
+      "test:integration",
+      "mcp:stdio"
+    ],
+    "defaults": {
+      "websocket_port": 4000,
+      "tool_timeout_ms": 120000,
+      "stdio_server_name": "ryttis-mcp-server",
+      "stdio_transport": "stdio",
+      "llm_default_model": "gpt-4o-mini"
+    },
+    "risks": [
+      "npm reported 2 moderate vulnerabilities after installing @modelcontextprotocol/sdk and zod; npm audit fix was not run.",
+      "MCP clients should use the node command directly, not plain npm run mcp:stdio, because npm lifecycle output writes to stdout unless --silent is used."
+    ]
+  },
+  "security_state": {
+    "auth": "Existing WebSocket auth remains AUTH_TOKEN query-token based when AUTH_TOKEN is configured. MCP stdio adapter does not require AUTH_TOKEN because it runs as a local subprocess.",
+    "mcp_stdio_security": "MCP stdio exposes only memory_ingest, memory_query, and llm_complete. It imports only those safe handlers instead of the full registry to avoid initializing unrelated sensitive tools.",
+    "run_command": "core.runCommand remains registered in the WebSocket JSON-RPC registry but is explicitly forbidden by callRegisteredTool and not exposed in MCP_STDIO_TOOL_DEFINITIONS.",
+    "sensitive_tools": [
+      "core.runCommand",
+      "core.writeFile",
+      "core.dbQuery",
+      "core.projectStatus",
+      "core.snapshotServer",
+      "core.snapshotTool",
+      "core.analyzeFile"
+    ],
+    "risks": [
+      "WebSocket JSON-RPC still exposes the full registry subject to existing auth behavior.",
+      "memory_ingest mutates the memory store by design and should be configured only for trusted local clients.",
+      "llm_complete can send prompt content to the configured OpenAI backend."
+    ]
+  },
+  "test_state": {
+    "tests_run": [
+      "git status --short",
+      "npm install @modelcontextprotocol/sdk zod",
+      "npm install",
+      "npm test with localhost socket permission",
+      "node -e \"import('./src/mcp/stdio-server.js').then(() => console.log('mcp stdio import ok'))\"",
+      "node -e \"import('./src/mcp/tools.js').then(m => console.log(Object.keys(m)))\"",
+      "node -e \"import('./server.js').then(() => console.log('server import ok'))\"",
+      "node -e \"import('./tools/index.js').then(m => console.log(Object.keys(m)))\"",
+      "direct bounded startup check: node src/mcp/stdio-server.js",
+      "npm run --silent mcp:stdio bounded startup check",
+      "JSON parse checks for package.json, package-lock.json, and headers/*.json",
+      "node --test tests/tools/llmComplete.test.js",
+      "npm test with localhost socket permission after response_format fix",
+      "node -e \"import('./tools/core/llmComplete.js').then(() => console.log('llmComplete ok'))\"",
+      "npm test unprivileged sandbox run after memoryIngest fix; memory and RPC tests passed, but the existing WebSocket integration test hung and the run was cancelled.",
+      "npm test with localhost socket permission after memoryIngest fix",
+      "node -e \"import('./tools/core/memoryIngest.js').then(() => console.log('memoryIngest ok'))\"",
+      "npm test unprivileged sandbox run after voice tools; voice tests passed, but the existing localhost WebSocket integration test hung and the run was stopped.",
+      "npm test with localhost socket permission after voice tools",
+      "final npm test with localhost socket permission after docs/status and VOICE_CALLS_ENABLED warning updates",
+      "npm install twilio",
+      "node --test tests/tools/voiceTools.test.js after Twilio provider and webhook tests",
+      "npm test with localhost socket permission after Twilio provider implementation",
+      "node -e \"import('./tools/index.js').then(m => console.log(Boolean(m.TOOL_REGISTRY_MAP['voice.outboundCall'])))\"",
+      "node -e \"JSON.parse(require('fs').readFileSync('/Users/Ryttis/mcp-server/headers/status-2026-04-29.json','utf8')); console.log('status json ok')\""
+    ],
+    "results": "node --test tests/tools/llmComplete.test.js passed 7 tests, 0 failures. npm test with localhost socket permission after Twilio provider implementation passed 55 tests, 1 suite, 0 failures, 0 cancelled, 0 skipped, duration 854.171402 ms. Voice tool coverage passed for outbound mock creation, persisted data/voice-calls records, approval and phone validation, provider rejection, allowed-number gating, missing allowlist warning, VOICE_CALLS_ENABLED dry-run warning, Twilio disabled rejection, missing Twilio env rejection, Twilio allowlist rejection, local record creation before mocked API call, mocked Twilio client payload, providerCallSid return, no returned secrets, TwiML route XML, gather SpeechResult storage, status event storage, status reads, result reads, and registry exposure. Import checks passed for server.js, tools/index.js, src/mcp/stdio-server.js, src/mcp/tools.js, tools/core/llmComplete.js, and tools/core/memoryIngest.js. Direct stdio startup produced empty stdout/stderr and exited cleanly when stdin closed. package.json, package-lock.json, headers/*.json, and headers/status-2026-04-29.json parsed successfully. Registry check printed true for voice.outboundCall.",
+    "failures": [],
+    "gaps": [
+      "Initial un-escalated npm test runs hung in the existing localhost WebSocket integration test under sandbox networking and were stopped; reruns with localhost socket permission passed.",
+      "No real Twilio call was run.",
+      "Manual mcp-bridge voice.outboundCall RPC smoke was documented but not run because it requires a running mcp-server and /Users/Ryttis/mcp-bridge.",
+      "No live MCP client handshake/list-tools smoke was run.",
+      "No RUN_MCP_STDIO_SMOKE script was added.",
+      "No live OpenAI call was run.",
+      "No live mcp-memory write/query was run."
+    ]
+  },
+  "integration_ready_for": {
+    "claude_code": {
+      "ready": true,
+      "how_to_use": [
+        "Configure a command-based MCP server that runs: node /Users/Ryttis/mcp-server/src/mcp/stdio-server.js",
+        "Provide OPENAI_API_KEY and memory env through Claude Code MCP configuration or shell environment when using LLM/memory tools."
+      ],
+      "required_next_steps": [
+        "Run a real Claude Code MCP list-tools smoke test.",
+        "Verify memory and LLM tool calls in a trusted local environment."
+      ],
+      "risks": [
+        "Live Claude Code connection was not tested in this pass.",
+        "memory_ingest and llm_complete can send or persist user-provided content."
+      ]
+    },
+    "codex": {
+      "ready": true,
+      "how_to_use": [
+        "Add [mcp_servers.ryttis] command = \"node\" args = [\"/Users/Ryttis/mcp-server/src/mcp/stdio-server.js\"] to Codex config.toml.",
+        "Use placeholder env values from docs/tools.md and replace them locally outside committed files."
+      ],
+      "required_next_steps": [
+        "Run a real Codex MCP tool listing smoke test.",
+        "Run guarded live memory/LLM calls only after env is configured."
+      ],
+      "risks": [
+        "Live Codex MCP connection was not tested in this pass."
+      ]
+    },
+    "mcp_bridge": {
+      "ready": true,
+      "details": "Existing WebSocket flow remains importable and npm tests pass. JSON-RPC registry still contains core.memoryIngest, core.memoryQuery, and core.llmComplete."
+    },
+    "mcp_memory": {
+      "ready": true,
+      "details": "mcp-memory remains a local dependency and stdio memory tools route to existing core.memoryIngest/core.memoryQuery wrappers. Live writes were not run."
+    },
+    "mcp_protocol": {
+      "ready": true,
+      "details": "mcp-protocol remains a local dependency and JSON-RPC validation remains in src/server/rpc.js. MCP stdio uses zod schemas at the SDK boundary."
+    }
+  },
+  "remaining_gaps": [
+    "Run a real MCP client list-tools smoke for Claude Code or Codex.",
+    "Add an optional guarded smoke:mcp-stdio script if automated MCP client smoke is needed.",
+    "Implement a safe project_status replacement that does not execute shell commands if that tool should be exposed over stdio.",
+    "Identify or build a safe read-only scan_project tool before exposing scan_project.",
+    "Review npm audit moderate vulnerabilities.",
+    "Consider quieting dotenv in non-stdio paths if noisy test output matters."
+  ],
+  "known_risks": [
+    {
+      "id": "live-mcp-client-not-run",
+      "severity": "medium",
+      "description": "The stdio adapter imports and starts under bounded checks, but no real MCP client list-tools call was run.",
+      "evidence": "Validation used import checks, unit tests, and bounded process startup; no MCP client SDK smoke script was added or run.",
+      "impact": "Client-specific configuration issues may still appear in Claude Code or Codex.",
+      "suggested_fix": "Run a real Codex or Claude Code MCP list-tools smoke using node /Users/Ryttis/mcp-server/src/mcp/stdio-server.js."
+    },
+    {
+      "id": "project-status-excluded",
+      "severity": "low",
+      "description": "project_status is not exposed through MCP stdio because the existing core.projectStatus IO executes a shell command.",
+      "evidence": "tools/core/projectStatus.io.js imports execSync from child_process and runs execSync(\"tree -I 'node_modules|.git'\").",
+      "impact": "MCP clients cannot call project_status until a safer implementation exists.",
+      "suggested_fix": "Create a read-only status implementation that does not execute shell commands, then expose it as project_status."
+    },
+    {
+      "id": "scan-project-missing-safe-tool",
+      "severity": "low",
+      "description": "scan_project is not exposed because no safe existing non-mutating scan tool was identified.",
+      "evidence": "src/mcp/tools.js lists scan_project in EXCLUDED_MCP_STDIO_TOOLS with internalName null.",
+      "impact": "MCP clients cannot trigger project scan through stdio yet.",
+      "suggested_fix": "Add or identify a safe read-only scan/status tool and map scan_project to it."
+    },
+    {
+      "id": "npm-audit-moderate",
+      "severity": "low",
+      "description": "npm install reported 2 moderate severity vulnerabilities.",
+      "evidence": "npm install output after SDK install and final npm install reported 2 moderate severity vulnerabilities.",
+      "impact": "Dependency vulnerability review remains pending.",
+      "suggested_fix": "Run npm audit and evaluate fixes separately; do not apply npm audit fix blindly without reviewing changes."
+    },
+    {
+      "id": "websocket-full-registry-still-sensitive",
+      "severity": "medium",
+      "description": "The WebSocket JSON-RPC server still exposes the full registry including core.runCommand, core.writeFile, and core.dbQuery under existing auth behavior.",
+      "evidence": "tools/index.js registry includes core.runCommand, core.writeFile, and core.dbQuery; stdio excludes them but WebSocket flow is unchanged by this work.",
+      "impact": "Non-stdio clients with access to the WebSocket server retain access to sensitive tools.",
+      "suggested_fix": "Add separate allowlisting or environment gates for dangerous WebSocket tools if non-local exposure is possible."
+    }
+  ],
+  "recommended_next_actions": [
+    {
+      "priority": 1,
+      "action": "Run real MCP client smoke",
+      "detail": "Configure Codex or Claude Code with command node /Users/Ryttis/mcp-server/src/mcp/stdio-server.js and verify list-tools returns memory_ingest, memory_query, and llm_complete."
+    },
+    {
+      "priority": 2,
+      "action": "Run guarded live tool calls",
+      "detail": "With OPENAI_API_KEY and memory env configured, call llm_complete, memory_ingest, and memory_query from a trusted MCP client."
+    },
+    {
+      "priority": 3,
+      "action": "Add safe project_status",
+      "detail": "Replace shell-based core.projectStatus behavior or add a stdio-specific safe status summary before exposing project_status."
+    },
+    {
+      "priority": 4,
+      "action": "Review dependency audit",
+      "detail": "Inspect npm audit output for the 2 moderate vulnerabilities and decide whether fixes are safe."
+    }
+  ],
+  "questions_for_next_discussion": [
+    "Should project_status be implemented as a stdio-specific safe summary rather than wrapping core.projectStatus?",
+    "Should scan_project be a new read-only tool or should it map to existing snapshot/getLastScan behavior?",
+    "Should dangerous WebSocket JSON-RPC tools get environment gates similar to the stdio exclusion policy?",
+    "Should MCP stdio return structuredContent in addition to text JSON once client compatibility is confirmed?"
+  ]
+}

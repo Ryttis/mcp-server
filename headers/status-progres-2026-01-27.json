@@ -1,0 +1,65 @@
+{
+  "project": "MCP Bridge – AI Recipe Engine for Large Twig Refactor",
+  "date": "2026-01-27",
+  "status": "Paused – Infrastructure phase completed, pipeline partially running",
+  "current_goal": "End-to-end execution of refactor-twig.yaml with kernel LLM planning and patch generation",
+  "what_is_working": {
+    "bridge_cli": "node bridge.js run-recipe refactor-twig.yaml --task=headers/backlog_table_refactor.json executes",
+    "recipe_loader": "Builtin recipe refactor-twig.yaml is resolved and validated",
+    "step_registry": {
+      "primitives": [
+        "readFile",
+        "analyzeStructure",
+        "analyzeSemantic",
+        "applyPatch",
+        "renderPreview"
+      ],
+      "ai": [
+        "taskPlanner",
+        "refactorTwig"
+      ]
+    },
+    "kernel_llm": "core.llmComplete tool registered and callable",
+    "task_injection": "runRecipeLocal receives { recipe, task } and injects ctx.params.task",
+    "filesystem": "Target file now correctly located at /Users/Ryttis/mcp-data/table_backlog_items.html.twig",
+    "first_step": "load_file step succeeds and returns file content"
+  },
+  "current_blocker": {
+    "step": "analyze_structure",
+    "error": "paths[0] is undefined",
+    "cause": "Recipe does not pass load_file output path into analyzeStructure.with.paths[]"
+  },
+  "known_engine_limits": [
+    "YAML does not support expression resolution (params.task.*, ctx.outputs.* not evaluated)",
+    "No variable templating ({{ }}) yet",
+    "Step.with values are literal only",
+    "Context interpolation must be added later at engine level"
+  ],
+  "temporary_workaround": {
+    "path_binding": "Absolute file path is hardcoded in recipe instead of params.task.targetFile",
+    "reason": "Unblocks LLM pipeline testing before implementing expression resolver"
+  },
+  "next_actions": [
+    {
+      "step": 1,
+      "task": "Modify analyze_structure step in refactor-twig.yaml to receive path from load_file via hardcoded or engine-resolved reference"
+    },
+    {
+      "step": 2,
+      "task": "Complete pipeline run until taskPlanner calls core.llmComplete"
+    },
+    {
+      "step": 3,
+      "task": "Verify refactorTwig produces full patched Twig file"
+    },
+    {
+      "step": 4,
+      "task": "Implement variable resolver for params.*, task.*, ctx.outputs.* in engine"
+    },
+    {
+      "step": 5,
+      "task": "Remove hardcoded paths and make recipe fully param-driven"
+    }
+  ],
+  "overall_state": "Infrastructure successfully wired (bridge, kernel, steps, CLI, context). Logical wiring inside recipe and expression resolution remains. Safe to continue from analyze_structure input binding."
+}

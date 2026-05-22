@@ -1,18 +1,23 @@
 import OpenAI from "openai";
 import { parseLogFile } from "@ryttis/logpilot";
+import { ToolError } from "../../errors/ToolError.js";
 
 /**
  * IO layer for logSummarize tool.
  * Handles log parsing and OpenAI API calls.
  */
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export const logSummarizeIO = {
     async parse(path) {
         return parseLogFile(path);
     },
 
     async summarize(text) {
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey) {
+            throw new ToolError("OPENAI_KEY_MISSING", "OPENAI_API_KEY not set");
+        }
+
+        const client = new OpenAI({ apiKey });
         const res = await client.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [

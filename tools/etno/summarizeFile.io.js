@@ -1,13 +1,12 @@
 import { readFile as fsReadFile } from "fs/promises";
 import path from "path";
 import OpenAI from "openai";
+import { ToolError } from "../../errors/ToolError.js";
 
 /**
  * IO layer for etno.summarizeFile tool.
  * Handles env access, filesystem reads, and OpenAI API calls.
  */
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export const summarizeFileIO = {
     getRoot() {
         return process.env.ETNOLENTOS_PATH;
@@ -22,6 +21,12 @@ export const summarizeFileIO = {
     },
 
     async summarize(prompt) {
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey) {
+            throw new ToolError("OPENAI_KEY_MISSING", "OPENAI_API_KEY not set");
+        }
+
+        const client = new OpenAI({ apiKey });
         const res = await client.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [

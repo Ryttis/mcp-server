@@ -1,0 +1,76 @@
+{
+    "project": "MCP Bridge – AI-assisted Large File Refactor",
+    "goal": "Refactor extremely large (500–1000+ lines) html.twig files using a fully tool-driven, reproducible workflow to stress-test primitives, AI steps, diff safety, snapshots, and state tracking.",
+    "inputMode": {
+    "type": "structured_task_file",
+        "format": "json",
+        "example": "task.json",
+        "passedVia": "CLI argument --task=task.json"
+},
+    "executionCommand": "node bridge.js run-recipe refactor-twig.yaml --task=<task>.json",
+    "workflow": [
+    {
+        "step": 1,
+        "name": "readFile",
+        "tool": "agent.steps.primitives.readFile",
+        "purpose": "Load original html.twig file into context"
+    },
+    {
+        "step": 2,
+        "name": "analyzeFile",
+        "tool": "agent.steps.primitives.analyzeFile",
+        "purpose": "Build structural model (blocks, loops, macros, variables, includes)"
+    },
+    {
+        "step": 3,
+        "name": "analyzeTask",
+        "tool": "agent.steps.ai.taskPlanner",
+        "purpose": "Map task requirements to exact file regions and operations (insert / replace / refactor)"
+    },
+    {
+        "step": 4,
+        "name": "generateImprovements",
+        "tool": "agent.steps.ai.refactorTwig",
+        "purpose": "Produce improved code fragments and patch instructions"
+    },
+    {
+        "step": 5,
+        "name": "mergePatch",
+        "tool": "agent.steps.primitives.applyPatch",
+        "purpose": "Safely apply fragments to base file using diff model"
+    },
+    {
+        "step": 6,
+        "name": "renderPreview",
+        "tool": "agent.steps.primitives.renderPreview",
+        "purpose": "Show full rebuilt file or unified diff for human validation"
+    },
+    {
+        "step": 7,
+        "name": "writeFile",
+        "tool": "agent.steps.primitives.writeFile",
+        "purpose": "Persist approved changes to disk"
+    },
+    {
+        "step": 8,
+        "name": "snapshot",
+        "tool": "core.snapshotTool",
+        "purpose": "Store before/after state, task metadata, and transformation history"
+    }
+],
+    "interactionModel": {
+    "mode": "recipe-driven",
+        "noManualInteractiveSteps": true,
+        "approvalGate": true,
+        "diffFirst": true
+},
+    "validationTargets": [
+    "Primitive stability on 1000+ line files",
+    "AI patch accuracy",
+    "Namespace routing (agent.*, core.*, memory.*)",
+    "Snapshot consistency",
+    "State recovery after reload",
+    "Long-context structural reasoning"
+],
+    "status": "ready_to_start"
+}

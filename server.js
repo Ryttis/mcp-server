@@ -4,6 +4,7 @@
  */
 
 import { WebSocketServer } from "ws";
+import http from "http";
 import dotenv from "dotenv";
 
 import { loadTools } from "./src/server/loader.js";
@@ -12,6 +13,7 @@ import { initLogger } from "./src/server/logger.js";
 import { initWorkspaces } from "./src/server/workspace.js";
 import { serverSnapshot } from "./src/server/snapshot.js";
 import { mcpState } from "./src/server/state.js";
+import { handleTwilioVoiceRoute } from "./src/voice/twilioRoutes.js";
 
 dotenv.config();
 
@@ -34,7 +36,27 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
     global.WORKSPACES = initWorkspaces();
     const appendContextLog = initLogger();
 
-    const wss = new WebSocketServer({ port });
+    const httpServer = http.createServer(async (req, res) => {
+        try {
+            if (await handleTwilioVoiceRoute(req, res)) {
+                return;
+            }
+            res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+            res.end("Not found");
+        } catch (err) {
+            console.error("HTTP route error:", { path: req.url, message: err.message });
+            res.writeHead(500, { "content-type": "text/plain; charset=utf-8" });
+            res.end("Internal server error");
+        }
+    });
+    const wss = new WebSocketServer({ server: httpServer });
+    await new Promise((resolve, reject) => {
+        httpServer.once("error", reject);
+        httpServer.listen(port, () => {
+            httpServer.off("error", reject);
+            resolve();
+        });
+    });
     console.log(`🚀 MCP Server running on ws://localhost:${port}`);
 
     wss.on("connection", (ws, req) =>
@@ -53,7 +75,18 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
 
         // Close all WS connections immediately
         wss.clients.forEach(client => client.terminate());
-        wss.close();
+        await new Promise((resolve, reject) => {
+            wss.close((err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
+        await new Promise((resolve, reject) => {
+            httpServer.close((err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
 
         await serverSnapshot();
     }
