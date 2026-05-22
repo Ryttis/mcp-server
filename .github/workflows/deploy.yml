@@ -12,7 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Optional: keep this only if you want to check that npm install works before deploy
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,19 +26,36 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          port: 2212
+          port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-            mkdir -p "${{ secrets.APP_DIR }}"
-            cd "${{ secrets.APP_DIR }}"
 
-            if [ ! -d .git ]; then
-              git clone https://github.com/Ryttis/mcp-server.git .
+            mkdir -p /var/www
+            cd /var/www
+
+            if [ ! -d mcp-protocol/.git ]; then
+              git clone https://github.com/Ryttis/mcp-protocol.git mcp-protocol
             else
+              cd /var/www/mcp-protocol
               git pull origin main
             fi
 
-            npm install --omit=dev
+            cd /var/www/mcp-protocol
+            npm install
 
-            pm2 restart mcp-server || pm2 start server.js --name mcp-server
+            cd /var/www
+
+            if [ ! -d mcp-server/.git ]; then
+              git clone https://github.com/Ryttis/mcp-server.git mcp-server
+            else
+              cd /var/www/mcp-server
+              git pull origin main
+            fi
+
+            cd /var/www/mcp-server
+            npm install
+            npm install ../mcp-protocol
+
+            pm2 restart mcp-server || pm2 start server.js --name mcp-server --interpreter node
             pm2 save
+            pm2 status
