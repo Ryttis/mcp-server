@@ -852,6 +852,191 @@ test("voice.getCallStatus and voice.getCallResult work for twilio records", asyn
     });
 });
 
+test("Twilio recording-result deduplication: second callback with same RecordingSid is idempotent", async () => {
+    const { io } = await makeVoiceIO();
+    await createSavedTwilioRecord(
+        { save: io.saveCall, get: io.getCall },
+        { responseMode: "record" }
+    );
+
+    const store = { save: io.saveCall, get: io.getCall };
+    const routeParams = {
+        url: "/voice/twilio/recording-result?callId=twilio-call-test",
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            RecordingSid: "RE1234567890abcdef",
+            RecordingUrl: "https://api.twilio.com/recordings/RE1234567890abcdef",
+            RecordingDuration: "7",
+            CallSid: "CA1234567890abcdef"
+        }).toString()
+    };
+
+    await callVoiceRoute(store, routeParams);
+    await callVoiceRoute(store, routeParams);
+
+    const saved = await io.getCall("twilio-call-test");
+    assert.equal(saved.recordings.length, 1, "recordings should not be duplicated");
+    assert.equal(saved.transcript.length, 1, "transcript should not be duplicated");
+    assert.equal(saved.answers.length, 1, "answers should not be duplicated");
+});
+
+test("Twilio completed status is not downgraded by a subsequent in-progress status callback", async () => {
+    const { io } = await makeVoiceIO();
+    await createSavedTwilioRecord(
+        { save: io.saveCall, get: io.getCall },
+        { status: "completed" }
+    );
+
+    const store = { save: io.saveCall, get: io.getCall };
+    await callVoiceRoute(store, {
+        url: "/voice/twilio/status?callId=twilio-call-test",
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            CallSid: "CA1234567890abcdef",
+            CallStatus: "in-progress"
+        }).toString()
+    });
+
+    const saved = await io.getCall("twilio-call-test");
+    assert.equal(saved.status, "completed");
+});
+
+test("Twilio status remains completed when late recording-result callback arrives", async () => {
+    const { io } = await makeVoiceIO();
+    await createSavedTwilioRecord(
+        { save: io.saveCall, get: io.getCall },
+        { responseMode: "record", status: "completed" }
+    );
+
+    const store = { save: io.saveCall, get: io.getCall };
+    await callVoiceRoute(store, {
+        url: "/voice/twilio/recording-result?callId=twilio-call-test",
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            RecordingSid: "RE1234567890abcdef",
+            RecordingUrl: "https://api.twilio.com/recordings/RE1234567890abcdef",
+            RecordingDuration: "7",
+            CallSid: "CA1234567890abcdef"
+        }).toString()
+    });
+
+    const saved = await io.getCall("twilio-call-test");
+    assert.equal(saved.status, "completed");
+    assert.equal(saved.recordings.length, 1);
+});
+
+function createMockInterpretationFetch(transcriptText, interpretationPayload) {
+    return async (url, _opts) => {
+        if (String(url).startsWith("https://api.twilio.com/recordings/")) {
+            return new Response(new Uint8Array([1, 2, 3]), {
+                status: 200,
+                headers: { "content-type": "audio/wav" }
+            });
+        }
+        if (url === "https://api.openai.com/v1/audio/transcriptions") {
+            return Response.json({ text: transcriptText });
+        }
+        if (url === "https://api.openai.com/v1/chat/completions") {
+            return Response.json({
+                choices: [{ message: { content: JSON.stringify(interpretationPayload) } }]
+            });
+        }
+        return new Response("not found", { status: 404 });
+    };
+}
+
+test("Twilio recording-result attaches LLM interpretation to answer when provider=openai", async () => {
+    const env = twilioEnv({
+        VOICE_TRANSCRIPTION_PROVIDER: "openai",
+        OPENAI_API_KEY: "test_openai_key",
+        VOICE_ANSWER_INTERPRETER_PROVIDER: "openai"
+    });
+    const { io } = await makeVoiceIO(env);
+    await createSavedTwilioRecord(
+        { save: io.saveCall, get: io.getCall },
+        { responseMode: "record" }
+    );
+
+    const interpretationPayload = {
+        language: "lt",
+        intent: "has_part",
+        confidence: 0.95,
+        summaryLt: "Pardavėjas turi priekinį kairės pusės žibintą",
+        partMatched: true,
+        sideMatched: true,
+        mentionedPart: "priekinis žibintas",
+        mentionedSide: "left",
+        availability: "yes",
+        followUpNeeded: false,
+        followUpQuestionLt: null
+    };
+
+    const store = { save: io.saveCall, get: io.getCall };
+    await callVoiceRoute(store, {
+        url: "/voice/twilio/recording-result?callId=twilio-call-test",
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        routeOptions: {
+            env,
+            fetch: createMockInterpretationFetch("Taip, turiu priekinį kairės pusės žibintą", interpretationPayload)
+        },
+        body: new URLSearchParams({
+            RecordingSid: "RE1234567890abcdef",
+            RecordingUrl: "https://api.twilio.com/recordings/RE1234567890abcdef",
+            RecordingDuration: "7",
+            CallSid: "CA1234567890abcdef"
+        }).toString()
+    });
+
+    const saved = await io.getCall("twilio-call-test");
+    assert.equal(saved.transcript[0].text, "Taip, turiu priekinį kairės pusės žibintą");
+    assert.equal(saved.answers[0].answer, "Taip, turiu priekinį kairės pusės žibintą");
+    assert.equal(saved.answers[0].interpretation.intent, "has_part");
+    assert.equal(saved.answers[0].interpretation.availability, "yes");
+    assert.equal(saved.answers[0].interpretation.mentionedSide, "left");
+    assert.equal(saved.answers[0].interpretation.sideMatched, true);
+    assert.equal(saved.answers[0].interpretation.confidence, 0.95);
+    assert.ok(saved.answers[0].interpretedAt);
+});
+
+test("Twilio recording-result does not attach interpretation when interpreter is disabled", async () => {
+    const env = twilioEnv({
+        VOICE_TRANSCRIPTION_PROVIDER: "openai",
+        OPENAI_API_KEY: "test_openai_key"
+        // VOICE_ANSWER_INTERPRETER_PROVIDER not set → defaults to none
+    });
+    const { io } = await makeVoiceIO(env);
+    await createSavedTwilioRecord(
+        { save: io.saveCall, get: io.getCall },
+        { responseMode: "record" }
+    );
+
+    const store = { save: io.saveCall, get: io.getCall };
+    await callVoiceRoute(store, {
+        url: "/voice/twilio/recording-result?callId=twilio-call-test",
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        routeOptions: {
+            env,
+            fetch: createMockTranscriptionFetch([])
+        },
+        body: new URLSearchParams({
+            RecordingSid: "RE1234567890abcdef",
+            RecordingUrl: "https://api.twilio.com/recordings/RE1234567890abcdef",
+            RecordingDuration: "7",
+            CallSid: "CA1234567890abcdef"
+        }).toString()
+    });
+
+    const saved = await io.getCall("twilio-call-test");
+    assert.equal(saved.answers[0].answer, "testas pavyko");
+    assert.equal(saved.answers[0].interpretation, undefined);
+    assert.equal(saved.answers[0].interpretedAt, undefined);
+});
+
 test("voice.getCallResult returns recording info for twilio records", async () => {
     const { io } = await makeVoiceIO();
     await createSavedTwilioRecord(

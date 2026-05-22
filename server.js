@@ -50,14 +50,14 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
         }
     });
     const wss = new WebSocketServer({ server: httpServer });
-    await new Promise((resolve, reject) => {
+    const listenPort = await new Promise((resolve, reject) => {
         httpServer.once("error", reject);
         httpServer.listen(port, () => {
             httpServer.off("error", reject);
-            resolve();
+            resolve(httpServer.address().port);
         });
     });
-    console.log(`🚀 MCP Server running on ws://localhost:${port}`);
+    console.log(`🚀 MCP Server running on ws://localhost:${listenPort}`);
 
     wss.on("connection", (ws, req) =>
         handleRpc(ws, req, AUTH_TOKEN, appendContextLog)
@@ -91,7 +91,7 @@ export async function startServer({ port = DEFAULT_PORT } = {}) {
         await serverSnapshot();
     }
 
-    return { close };
+    return { close, port: listenPort };
 }
 
 /**

@@ -12,6 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Optional: keep this only if you want to check that npm install works before deploy
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,4 +43,3 @@ jobs:
 
             pm2 restart mcp-server || pm2 start server.js --name mcp-server
             pm2 save
-

@@ -413,16 +413,19 @@ Environment:
 - `VOICE_TRANSCRIPTION_PROVIDER=none` is the default and keeps transcription disabled.
 - `VOICE_TRANSCRIPTION_PROVIDER=openai` enables OpenAI audio transcription for recorded Twilio audio.
 - `VOICE_TRANSCRIPTION_LANGUAGE=lt-LT` is the default transcription language.
-- `OPENAI_API_KEY=...` is required when `VOICE_TRANSCRIPTION_PROVIDER=openai`.
+- `OPENAI_API_KEY=...` is required when `VOICE_TRANSCRIPTION_PROVIDER=openai` or `VOICE_ANSWER_INTERPRETER_PROVIDER=openai`.
 - `OPENAI_TRANSCRIPTION_MODEL=whisper-1` is the default OpenAI transcription model override.
+- `VOICE_ANSWER_INTERPRETER_PROVIDER=none` is the default and keeps LLM answer interpretation disabled.
+- `VOICE_ANSWER_INTERPRETER_PROVIDER=openai` enables LLM-based interpretation of transcribed Lithuanian answers. When enabled, the server sends the STT transcript and the question to OpenAI chat completions and attaches a structured `interpretation` object to the matching answer. The raw `answer` text and `RecordingUrl` are always preserved for audit regardless of whether interpretation is enabled.
+- `VOICE_ANSWER_INTERPRETER_MODEL=gpt-4o-mini` is the default OpenAI model used for answer interpretation.
 
 Twilio webhook routes served by `server.js`:
 - `GET|POST /voice/twilio/twiml?callId=<callId>` returns TwiML with the Lithuanian intro and first script question.
 - `responseMode="gather"` returns `<Gather input="speech" language="lt-LT" ...>` and asks Twilio to recognize caller speech directly. Gather TwiML uses an absolute `PUBLIC_VOICE_BASE_URL` action URL, `timeout="8"`, `speechTimeout="auto"`, and `actionOnEmptyResult="true"`.
 - `responseMode="record"` plays `VOICE_PROMPT_AUDIO_URL` with `<Play>` when configured; otherwise it falls back to `<Say language="lt-LT">`. It then returns `<Record action="<PUBLIC_VOICE_BASE_URL>/voice/twilio/recording-result?callId=<callId>" method="POST" maxLength="30" timeout="7" trim="do-not-trim" playBeep="true" recordingStatusCallback="<PUBLIC_VOICE_BASE_URL>/voice/twilio/recording-result?callId=<callId>" recordingStatusCallbackMethod="POST" recordingStatusCallbackEvent="completed" />`. Both callbacks use the same storage route; duplicate `RecordingSid` callbacks are ignored. `VOICE_RECORD_PLAY_BEEP=false` can disable the beep, but the default keeps it enabled.
 - `POST /voice/twilio/gather?callId=<callId>` stores Twilio `SpeechResult` and `Confidence`.
-- `POST /voice/twilio/recording-result?callId=<callId>` stores `RecordingSid`, `RecordingUrl`, `RecordingDuration`, `CallSid`, and a timestamp; it appends a `caller_recording` transcript item and an answer. With the default provider, no external STT provider is called and the answer remains `transcriptionPending: true`. With `VOICE_TRANSCRIPTION_PROVIDER=openai`, the route transcribes the recording, saves transcription diagnostics, and stores `transcriptionPending: false` only when non-empty text was saved.
-- `POST /voice/twilio/status?callId=<callId>` stores safe Twilio status fields and updates the local status.
+- `POST /voice/twilio/recording-result?callId=<callId>` stores `RecordingSid`, `RecordingUrl`, `RecordingDuration`, `CallSid`, and a timestamp; it appends a `caller_recording` transcript item and an answer. Duplicate callbacks for the same `RecordingSid` are idempotent — the second callback is ignored. With the default provider, no external STT provider is called and the answer remains `transcriptionPending: true`. With `VOICE_TRANSCRIPTION_PROVIDER=openai`, the route transcribes the recording, saves transcription diagnostics, and stores `transcriptionPending: false` only when non-empty text was saved. With `VOICE_ANSWER_INTERPRETER_PROVIDER=openai`, the route additionally sends the transcribed text to an LLM for Lithuanian answer interpretation, and attaches a structured `interpretation` object (with fields `intent`, `confidence`, `availability`, `mentionedPart`, `mentionedSide`, `sideMatched`, etc.) plus `interpretedAt` to the answer. Interpretation is skipped if the transcription returned empty text, and `interpretationError` is stored instead if the LLM call fails. The raw transcript and `RecordingUrl` are always preserved.
+- `POST /voice/twilio/status?callId=<callId>` stores safe Twilio status fields and updates the local status. Terminal statuses (`completed`, `failed`, `busy`, `no-answer`, `canceled`) cannot be downgraded by later callbacks.
 
 ---
 
@@ -603,6 +606,39 @@ After OpenAI transcription, the same fields are updated with text:
 }
 ```
 
+With `VOICE_ANSWER_INTERPRETER_PROVIDER=openai`, the answer also includes an `interpretation` object:
+
+```json
+{
+  "answers": [
+    {
+      "answer": "Taip, turiu priekinį kairės pusės žibintą",
+      "transcriptionPending": false,
+      "interpretation": {
+        "language": "lt",
+        "intent": "has_part",
+        "confidence": 0.95,
+        "summaryLt": "Pardavėjas turi priekinį kairės pusės žibintą",
+        "partMatched": true,
+        "sideMatched": true,
+        "mentionedPart": "priekinis žibintas",
+        "mentionedSide": "left",
+        "availability": "yes",
+        "followUpNeeded": false,
+        "followUpQuestionLt": null
+      },
+      "interpretedAt": "2026-05-22T..."
+    }
+  ]
+}
+```
+
+Valid `intent` values: `has_part`, `does_not_have_part`, `has_alternative`, `unclear`, `asked_to_repeat`, `needs_check`.
+Valid `availability` values: `yes`, `no`, `partial`, `unknown`.
+Valid `mentionedSide` values: `left`, `right`, `unknown`.
+
+The LLM interpreter avoids hardcoded possible-answer lists — it handles flexible STT output (typos, partial phrases, STT errors) by having the model reason about intent and side from context. The raw transcript is always preserved for audit.
+
 ### Test public TwiML URL
 
 After creating a call, verify that Twilio can reach the public TwiML route:
@@ -629,6 +665,21 @@ When `VOICE_PROMPT_AUDIO_URL` is set, record mode should also include `<Play>htt
 - Lithuanian prompts should use recorded/native audio or high-quality generated audio through `VOICE_PROMPT_AUDIO_URL`. Twilio `<Say>` is only a fallback and still sounds poorly pronounced for Lithuanian.
 - `voice.getCallResult` may show recording metadata with `transcriptionPending: true` until the recording has been transcribed.
 - Supplier batch calls remain intentionally disconnected. Keep the manual, allowed-number-only test workflow.
+- `VOICE_ANSWER_INTERPRETER_PROVIDER=openai` is off by default. Enable it only when you want the LLM to interpret transcribed Lithuanian answers; this requires `OPENAI_API_KEY` and calls the OpenAI chat completions API once per answer.
+
+### Archiving test call records
+
+To move `mock-call-*` and `twilio-call-*` records out of `data/voice-calls` into a timestamped archive folder:
+
+```bash
+# Preview what would be moved
+node scripts/archive-voice-test-calls.js --dry-run
+
+# Actually move the files
+node scripts/archive-voice-test-calls.js --confirm
+```
+
+The script requires explicit execution and will never run automatically.
 
 ---
 
