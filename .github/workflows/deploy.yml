@@ -29,8 +29,8 @@ jobs:
           port: 2212
           script: |
             set -e
-            mkdir -p ${{ secrets.APP_DIR }}
-            cd ${{ secrets.APP_DIR }}
+            mkdir -p "${{ secrets.APP_DIR }}"
+            cd "${{ secrets.APP_DIR }}"
 
             if [ ! -d .git ]; then
               git clone https://github.com/Ryttis/mcp-server.git .
@@ -41,6 +41,6 @@ jobs:
             npm install --omit=dev
 
             pm2 delete mcp-server || true
-            pm2 start server.js --name mcp-server
+            pm2 restart mcp-server || pm2 start server.js --name mcp-server
             pm2 save
 
